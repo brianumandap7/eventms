@@ -9,6 +9,7 @@ class events_details(models.Model):
     events_details = models.CharField(max_length=250, blank=True, null=True)
     events_schedule = models.DateTimeField()
     events_requestor = models.ForeignKey(User, on_delete=models.CASCADE)
+
     ips_url = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
