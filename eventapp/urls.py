@@ -11,6 +11,7 @@ urlpatterns = [
     path('admindash/', views.admindash, name='admindash'),
     path('stu/', views.stu, name='stu'),
     path('sao/', views.sao, name='sao'),
+    path('create_event/', views.create_event, name='create_event'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

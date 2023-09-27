@@ -13,5 +13,4 @@ class events_details(models.Model):
     ips_url = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
-    	formatted_date = self.events_schedule.strftime("%Y-%m-%d")
-    	return str(self.events_name)+" "+formatted_date+" "+str(self.events_requestor)
+    	return str(self.events_name)+" "+" "+str(self.events_requestor)

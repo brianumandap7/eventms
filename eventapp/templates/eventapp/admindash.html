@@ -16,6 +16,16 @@
 
 {% endif %}
 <div class="container-lg">
+          {% if messages %}
+              
+                  {% for message in messages %}
+                      <div class="alert alert-success" role="alert">
+                        {{ message }}
+                      </div>
+                      
+                  {% endfor %}
+              
+          {% endif %}
           <div class="row">
             <div class="col-sm-6 col-lg-3">
               <div class="card mb-4 text-white bg-primary">
@@ -63,7 +73,7 @@
               <div class="card mb-4 text-white bg-warning">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                   <div>
-                    <div class="fs-4 fw-semibold">0
+                    <div class="fs-4 fw-semibold">{{e_count}}
                       <span class="fs-6 fw-normal">
                         <svg class="icon">
                           <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-top"></use>
@@ -102,6 +112,8 @@
             <!-- /.col-->
           </div>
           <!-- /.row-->
+          
+
           <div class="card mb-4">
             
             <div class="card-footer">

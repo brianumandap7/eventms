@@ -46,6 +46,8 @@ INSTALLED_APPS = [
 
     'eventapp.apps.EventappConfig',
 
+    'tempus_dominus',
+
     'login.apps.LoginConfig',
 ]
 
