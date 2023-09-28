@@ -1,0 +1,11 @@
+
+UI of adding events
+Archiving events instead of delete
+
+Account handling - admin UI
+Event handling - sao UI
+
+Creation of Account - superadmin UI
+
+Event Notification 
+ - individual adding of participants

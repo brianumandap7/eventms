@@ -12,6 +12,21 @@ urlpatterns = [
     path('stu/', views.stu, name='stu'),
     path('sao/', views.sao, name='sao'),
     path('create_event/', views.create_event, name='create_event'),
+
+    path('view_event/', views.view_event, name='view_event'),
+
+    path('edit_event/<int:event_id>', views.edit_event, name='edit_event'),
+
+    path('ar/<int:tag>', views.ar, name='ar'),
+
+    path('ua/<int:tag>', views.ua, name='ua'),
+
+    path('manage_users/', views.manage_users, name='manage_users'),
+
+    path('create_user/', views.create_user, name='create_user'),
+
+    path('edit_profile/<int:pk>/', views.edit_profile, name='edit_profile'),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()
