@@ -39,26 +39,26 @@ class EventsDetailsEditForm(forms.ModelForm):
         }
 
 class CustomUserCreationForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         
         # Add Bootstrap classes to form fields
         self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['first_name'].widget.attrs['class'] = 'form-control'
+        self.fields['last_name'].widget.attrs['class'] = 'form-control'
         self.fields['email'].widget.attrs['class'] = 'form-control'
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
+        
 
 class CustomUserEditForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'email', 'first_name', 'last_name']
 
     def __init__(self, *args, **kwargs):
         super(CustomUserEditForm, self).__init__(*args, **kwargs)

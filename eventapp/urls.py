@@ -27,6 +27,10 @@ urlpatterns = [
 
     path('edit_profile/<int:pk>/', views.edit_profile, name='edit_profile'),
 
+    path('activate/<int:tag>/', views.activate, name='activate'),
+
+    path('deact/<int:tag>/', views.deact, name='deact'),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

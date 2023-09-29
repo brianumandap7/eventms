@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm
-from .models import events_details
+from .models import events_details, UserProfile
 from django.contrib import messages
 
 
@@ -117,4 +117,20 @@ def edit_profile(request, pk):
         form = CustomUserEditForm(instance=user)
 
     return render(request, 'eventapp/edit_profile.html', {'form': form})
+
+def deact(request, tag):
+    context = {
+    	'tag': tag,
+    	'exec': User.objects.filter(id = tag).update(is_active = False),
+    }
+
+    return render(request, 'eventapp/deact.html', context)
+
+def activate(request, tag):
+    context = {
+    	'tag': tag,
+    	'exec': User.objects.filter(id = tag).update(is_active = True),
+    }
+
+    return render(request, 'eventapp/activate.html', context)
 

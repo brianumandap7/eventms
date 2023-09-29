@@ -62,9 +62,10 @@
             <td>
                 {{items.first_name}} {{items.last_name}}
                 <br>
-                {% if items.event_active == 0 %}
-                <small class="ar bg-danger rounded">archived</small>
+                {% if items.is_active == False %}
+                <small class="ar bg-danger rounded">Deactivated</small>
                 {% endif %}
+
             </td>
             <td>
                 {{items.username}}
@@ -85,8 +86,14 @@
                 <a href="#" class="btn btn-info btn-sm">View</a>
 
                 <a href="/eventapp/edit_profile/{{items.id}}" class="btn btn-warning btn-sm">Edit</a>
+                {% if items.is_active == True %}
+                <a href="/eventapp/deact/{{items.id}}" class="btn btn-danger btn-sm">Deactivate</a>
 
-                
+                {% else %}
+
+                <a href="/eventapp/activate/{{items.id}}" class="btn btn-success btn-sm">Activate</a>
+
+                {% endif %}
             </td>
         </tr>
 

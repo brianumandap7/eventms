@@ -14,3 +14,11 @@ class events_details(models.Model):
 
     def __str__(self):
     	return str(self.events_name)+" "+" "+str(self.events_requestor)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=255, blank=True, null=True)
+    course = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
