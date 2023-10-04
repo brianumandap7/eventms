@@ -32,7 +32,48 @@
 
     <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+
+                <div id="username-alert" class="alert" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                {{ form.first_name }}
+
+                 <div id="first-name-alert" class="alert" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                {{ form.last_name }}
+
+                <div id="last-name-alert" class="alert" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+
+                <div id="email-alert" class="alert" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">Password</label>
+                {{ form.password1 }}
+
+                <div id="password-alert" class="alert" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                {{ form.password2 }}
+
+                <div id="password-match-alert" class="alert" role="alert"></div>
+            </div>
+
             <button type="submit" class="btn btn-custom">Create</button>
     </form>
     
@@ -46,10 +87,96 @@
 <script>
     $(function () {
         $('.datetime-input').datetimepicker({
-            format:'YYYY-MM-DD HH:mm:ss'
+            format: 'YYYY-MM-DD HH:mm:ss'
+        });
+
+        // Add event listener to the input field
+        $('#id_username').on('input', function () {
+            var input = $(this);
+            var alertDiv = $('#username-alert');
+
+            if (input.val().length < 8) {
+                alertDiv.removeClass('alert-success').addClass('alert-danger');
+                alertDiv.text('This field requires 8 characters or more. Usernames can contain letters, digits, and the following characters: @, ., +, -, and _.');
+            } else {
+                alertDiv.removeClass('alert-danger').addClass('alert-success');
+                alertDiv.text('Valid username.');
+            }
+        });
+
+        $('#id_first_name').on('input', function () {
+            var input = $(this);
+            var alertDiv = $('#first-name-alert');
+
+            if (input.val().length < 0) {
+                alertDiv.removeClass('alert-success').addClass('alert-danger');
+                alertDiv.text('This field requires 2 characters or more.');
+            } else {
+                alertDiv.removeClass('alert-danger').addClass('alert-success');
+                alertDiv.text('Valid first name.');
+            }
+        });
+
+        $('#id_last_name').on('input', function () {
+            var input = $(this);
+            var alertDiv = $('#last-name-alert');
+
+            if (input.val().length < 0) {
+                alertDiv.removeClass('alert-success').addClass('alert-danger');
+                alertDiv.text('This field requires 2 characters or more.');
+            } else {
+                alertDiv.removeClass('alert-danger').addClass('alert-success');
+                alertDiv.text('Valid last name.');
+            }
+        });
+
+        $('#id_email').on('input', function () {
+            var input = $(this);
+            var alertDiv = $('#email-alert');
+
+            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+            if (!emailPattern.test(input.val())) {
+                alertDiv.removeClass('alert-success').addClass('alert-danger');
+                alertDiv.text('Invalid email format.');
+            } else {
+                alertDiv.removeClass('alert-danger').addClass('alert-success');
+                alertDiv.text('Valid email.');
+            }
+        });
+
+        $('#id_password1, #id_password2').on('input', function () {
+            var password1 = $('#id_password1').val();
+            var password2 = $('#id_password2').val();
+            var alertDiv = $('#password-alert');
+            
+            var isLengthValid = password1.length >= 8;
+            var hasUpperCase = /[A-Z]/.test(password1);
+            var hasLowerCase = /[a-z]/.test(password1);
+            var hasDigit = /\d/.test(password1);
+
+            if (!isLengthValid || !hasUpperCase || !hasLowerCase || !hasDigit) {
+                alertDiv.removeClass('alert-success').addClass('alert-danger');
+                alertDiv.html('<strong>Password criteria:</strong><br>' +
+                              '- Minimum 8 characters<br>' +
+                              '- At least one uppercase letter<br>' +
+                              '- At least one lowercase letter<br>' +
+                              '- At least one digit');
+            } else if (password1 !== password2) {
+                alertDiv.removeClass('alert-success').addClass('alert-danger');
+                alertDiv.text('Passwords do not match. Please confirm password');
+            } else {
+                alertDiv.removeClass('alert-danger').addClass('alert-success');
+                alertDiv.text('Passwords meet the criteria and match.');
+            }
         });
     });
 </script>
+
+<!-- Include the Bootstrap JavaScript library -->
+
+<!-- Alert div for username validation -->
+
 
 <!-- Include the Bootstrap JavaScript library -->
 

@@ -45,6 +45,11 @@ border-bottom-right-radius: .3rem;
 }
 }
 
+  .alert ul li {
+      font-size: 14px;
+      list-style: none;
+  }
+
 
   </style>
   <body>
@@ -64,23 +69,21 @@ border-bottom-right-radius: .3rem;
                   <h5 class="mt-1 mb-5 pb-1">Events Management System</h5>
                 </div>
 
+                
+
                 <form method="POST">
-                	{% csrf_token %}
+                    {% csrf_token %}
+                    <div class="form-outline mb-4">
+                        {{ form|crispy }}
+                    </div>
 
-                  <div class="form-outline mb-4">
-
-                  	{{ form|crispy }}
-                   
-                    
-                  </div>
-
-                  <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-custom btn-block fa-lg mb-3" type="submit">Log
-                      in</button>
-                    <a class="text-muted" href="#!">Forgot password?</a>
-                  </div>
-
+                    <div class="text-center pt-1 mb-5 pb-1">
+                        <button class="btn btn-custom btn-block fa-lg mb-3" type="submit">Log in</button>
+                        
+                    </div>
                 </form>
+
+                
 
               </div>
             </div>
