@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="6">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPS Interface</title>
+    <style>
+        body {
+            background-color: #092D13; /* Set the background color to #092D13 */
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .event-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .event-name {
+            font-size: 24px;
+            color: #FEBE10;
+        }
+
+        .attendee-count {
+            font-size: 18px;
+            color: #FEBE10;
+        }
+
+        .radar {
+            width: 300px;
+            height: 300px;
+            background-color: transparent; /* Set background to transparent */
+            border: 2px solid #FEBE10;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .beam {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background-color: #FEBE10;
+            opacity: 0.5;
+            animation: radar-sweep 2s linear infinite;
+        }
+
+        @keyframes radar-sweep {
+            0% {
+                transform: translateX(-50%) rotate(0deg);
+            }
+            100% {
+                transform: translateX(-50%) rotate(360deg);
+            }
+        }
+
+        .blip {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #FF0000;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: blip-animation 2s linear infinite;
+        }
+
+        @keyframes blip-animation {
+            0%, 100% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        .va, .va:hover {
+            background-color: #FEBE10;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="event-info">
+        <div class="event-name">Sample Event Name</div>
+        <div class="attendee-count">Number of Attendees: {{ attendee_count }}</div>
+
+        <a href="javascript:void(0);" class="va" onclick="openPopup('/eventapp/attendance/', 'View Attendees', 700, 600);">View Attendees</a>
+
+        <script>
+            function openPopup(url, title, width, height) {
+                const left = (screen.width - width) / 2;
+                const top = (screen.height - height) / 2;
+                const popup = window.open(url, title, `width=${width}, height=${height}, left=${left}, top=${top}`);
+                if (popup) {
+                    popup.focus();
+                } else {
+                    alert('Please allow pop-ups for this site to view attendees.');
+                }
+            }
+        </script>
+
+    </div>
+    <div class="radar">
+        <div class="beam"></div>
+        <script>
+            // Function to create and add blips to the radar based on attendee_count
+            function createBlips() {
+                const maxRadius = 130; // Maximum radius for blip positions
+                const radar = document.querySelector('.radar');
+                const attendee_count = {{ attendee_count }}; // Get attendee count from Django
+
+                for (let i = 0; i < attendee_count; i++) {
+                    const blip = document.createElement('div');
+                    blip.className = 'blip';
+                    const randomX = Math.random() * maxRadius * 2 - maxRadius; // Random X within maxRadius
+                    const randomY = Math.random() * maxRadius * 2 - maxRadius; // Random Y within maxRadius
+                    blip.style.top = `${radar.clientHeight / 2 + randomY}px`;
+                    blip.style.left = `${radar.clientWidth / 2 + randomX}px`;
+                    radar.appendChild(blip);
+                }
+            }
+
+            // Call createBlips to create blips based on attendee_count
+            createBlips();
+        </script>
+    </div>
+</body>
+</html>

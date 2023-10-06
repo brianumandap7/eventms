@@ -35,6 +35,8 @@ urlpatterns = [
     
     path('attendance/', views.attendance, name='attendance'),
 
+    path('radar/', views.radar, name='radar'),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

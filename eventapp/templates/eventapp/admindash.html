@@ -15,6 +15,12 @@
 </script>
 
 {% endif %}
+
+{% if request.user.username == "ips.server" %}
+  <script>
+    window.location.href = 'http://192.168.3.107:8000/eventapp/radar/';
+  </script>
+{% endif %}
 <div class="container-lg">
           
           <div class="row">

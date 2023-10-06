@@ -153,6 +153,13 @@ def attendance(request):
 
     return render(request, 'eventapp/attendance.html', context)
 
+def radar(request):
+    context = {
+    	'attendee_count': AttendanceMonitoring.objects.all().count(),
+    }
+
+    return render(request, 'eventapp/radar.html', context)
+
 
 
 
