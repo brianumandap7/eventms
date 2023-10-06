@@ -31,6 +31,10 @@ urlpatterns = [
 
     path('deact/<int:tag>/', views.deact, name='deact'),
 
+    path('ips/<str:sid>/<str:u1>.<str:u2>', views.ips, name='ips'),
+    
+    path('attendance/', views.attendance, name='attendance'),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

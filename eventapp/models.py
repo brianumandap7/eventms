@@ -2,6 +2,7 @@ from time import strptime
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date, datetime
+from django.utils import timezone
 
 class events_details(models.Model):
     events_details_id = models.AutoField(primary_key=True)
@@ -22,3 +23,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class AttendanceMonitoring(models.Model):
+	attendee = models.CharField(max_length=255, blank=True, null=True)
+	events_details_id = models.CharField(max_length=255, blank=True, null=True)
+	sess_id = models.CharField(max_length=255, blank=True, null=True)
+	time_in = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+	def __str__(self):
+		return self.events_details_id+" "+str(self.attendee)+" "+str(self.sess_id)

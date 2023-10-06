@@ -1,0 +1,99 @@
+{% extends "eventapp/basetemp.html" %}
+
+{% block content %}
+<meta http-equiv="refresh" content="60">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css"> <!-- DataTables CSS -->
+
+<link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> <!-- DataTables JavaScript -->
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script> <!-- DataTables Bootstrap JavaScript -->
+
+<style>
+    .btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+        width: 100px;
+    }
+    table {
+        margin-top: 10px;
+    }
+    .thead {
+        background-color: #092D13;
+        color: white;
+    }
+
+    .ar {
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .prnt {
+        margin-bottom: 20px;
+    }
+</style>
+<div class="container-fluid">
+    
+    <h1>Attendance Monitoring</h1>
+    <h3>Sample Event Name</h3>
+    
+    <table class="table" id="user-table">
+        <thead class="thead">
+            <tr>
+                <th>Event ID</th>
+                <th>Attendee</th>
+                <th>Session ID</th>
+                <th>Time in</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for items in at %}
+                <tr>
+                    <td>
+                        {{items.events_details_id}}
+                    </td>
+                    <td>
+                       {{items.attendee}}
+                    </td>
+                    <td>
+                       {{items.sess_id}}
+                    </td>
+                    <td>
+                       {{items.time_in}}
+                    </td>
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script> <!-- DataTables Buttons JavaScript -->
+<script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script> <!-- DataTables Buttons Print JavaScript -->
+
+<script>
+    $(document).ready(function() {
+        $('#user-table').DataTable({
+            dom: 'Blfrtip', // Include length menu (l) and print button (B)
+            buttons: [
+                {
+                    extend: 'print',
+                    className: 'btn btn-custom prnt', // Add the Bootstrap class
+                }
+            ]
+        });
+    });
+</script>
+
+
+
+
+{% endblock content %}

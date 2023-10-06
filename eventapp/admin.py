@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import events_details, UserProfile
+from .models import events_details, UserProfile, AttendanceMonitoring
 from import_export.admin import ImportExportModelAdmin, ExportActionMixin #package
 
 class exportSurvey(ExportActionMixin, admin.ModelAdmin): #class or function
@@ -10,4 +10,4 @@ admin.site.register(events_details, exportSurvey)
 
 admin.site.register(UserProfile, exportSurvey)
 
-
+admin.site.register(AttendanceMonitoring, exportSurvey)

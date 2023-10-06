@@ -3,6 +3,17 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-Student Dashboard
+<p>Session ID: {{ session_id }}{{user}}</p>
+
+
+<script>
+    var session_id = "{{ session_id }}";
+    var username = "{{user}}"
+    var redirectUrl = "http://192.168.3.107:8000/eventapp/ips/" + session_id+"/"+username;
+
+    setTimeout(function() {
+        window.location.href = redirectUrl;
+    }, 5000); // 5000 milliseconds (5 seconds)
+</script>
 
 {% endblock content %}

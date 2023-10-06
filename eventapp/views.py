@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm
-from .models import events_details, UserProfile
+from .models import events_details, UserProfile, AttendanceMonitoring
 from django.contrib import messages
 
 
@@ -15,8 +15,10 @@ def admindash(request):
 	return render(request, 'eventapp/admindash.html', query)
 
 def stu(request):
+
+	session_id = request.session.session_key
 	query = {
-		
+		'session_id': session_id,
 	}
 	return render(request, 'eventapp/stu.html', query)
 
@@ -133,4 +135,24 @@ def activate(request, tag):
     }
 
     return render(request, 'eventapp/activate.html', context)
+
+def ips(request, sid, u1, u2):
+
+	context = {
+	    	'sid': sid,
+	    	'u1': u1,
+	    	'u2': u2,
+	    	'executed_attendance': AttendanceMonitoring.objects.create(attendee=u1+"."+u2,events_details_id=1,sess_id=sid)
+    }
+	return render(request, 'eventapp/ips.html', context)
+
+def attendance(request):
+    context = {
+    	'at': AttendanceMonitoring.objects.all(),
+    }
+
+    return render(request, 'eventapp/attendance.html', context)
+
+
+
 
