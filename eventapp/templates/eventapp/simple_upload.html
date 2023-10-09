@@ -1,0 +1,39 @@
+{% extends "eventapp/basetemp.html" %}
+
+{% block content %}
+<style>
+	.btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+        width: 120px;
+    }
+</style>	
+
+<div class="container-fluid">
+
+<form method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<table class="table">
+	<tbody>
+		<tr>
+			<td>
+				Bulk Upload Users
+			</td>
+			<td>
+				<input type="file" name="myfile" required>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="submit" name="submit" value="Upload Users" class="btn btn-custom">
+
+			</td>
+		</tr>
+	</tbody>
+
+
+</table>
+</form>
+</div>
+
+{% endblock content %}

@@ -37,7 +37,15 @@
 
     .prnt {
         margin-bottom: 20px;
+        float: right;
+        margin-top: 33px;
+        margin-left: 20px;
     }
+
+    .bu, .bu:hover {
+        width: 150px;
+    }
+
 </style>
 <div class="container-fluid">
     {% if messages %}
@@ -48,6 +56,7 @@
         {% endfor %}
     {% endif %}
     <h1>Manage Users</h1>
+    <a href="/eventapp/simple_upload/" class="btn btn-custom bu">Bulk Upload</a>
     <a href="/eventapp/create_user" class="btn btn-custom">Add User</a>
     <br>
     <br>
@@ -82,16 +91,29 @@
                         {{items.date_joined}}
                     </td>
                     <td>
-                        {{items.last_login}}
+                        {{items.last_login|default_if_none:"No Login Record Yet"}}
                     </td>
                     <td>
-                        <a href="#" class="btn btn-info btn-sm">View</a>
-                        <a href="/eventapp/edit_profile/{{items.id}}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/eventapp/view_user/{{items.id}}" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="/eventapp/edit_profile/{{items.id}}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
                         {% if items.is_active == True %}
-                            <a href="/eventapp/deact/{{items.id}}" class="btn btn-danger btn-sm">Deactivate</a>
+                            <a href="/eventapp/deact/{{items.id}}/{{items.username}}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-toggle-off"></i>
+                            </a>
                         {% else %}
-                            <a href="/eventapp/activate/{{items.id}}" class="btn btn-success btn-sm">Activate</a>
+                            <a href="/eventapp/activate/{{items.id}}/{{items.username}}" class="btn btn-success btn-sm">
+                                <i class="fas fa-toggle-on"></i>
+                            </a>
                         {% endif %}
+
+                        <a href="/eventapp/user_logs/{{items.id}}/{{items.username}}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-history"></i>
+                        </a>
+
                     </td>
                 </tr>
             {% endfor %}

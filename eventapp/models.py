@@ -32,3 +32,12 @@ class AttendanceMonitoring(models.Model):
 
 	def __str__(self):
 		return self.events_details_id+" "+str(self.attendee)+" "+str(self.sess_id)
+
+class UserLogs(models.Model):
+    user = models.CharField(max_length=255, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    performed_by = models.CharField(max_length=255, blank=True, null=True)
+    date_performed = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.user+" "+str(self.description)+" "+str(self.date_performed)

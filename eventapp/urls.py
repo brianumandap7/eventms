@@ -27,15 +27,21 @@ urlpatterns = [
 
     path('edit_profile/<int:pk>/', views.edit_profile, name='edit_profile'),
 
-    path('activate/<int:tag>/', views.activate, name='activate'),
+    path('activate/<int:tag>/<str:un>', views.activate, name='activate'),
 
-    path('deact/<int:tag>/', views.deact, name='deact'),
+    path('deact/<int:tag>/<str:un>', views.deact, name='deact'),
 
     path('ips/<str:sid>/<str:u1>.<str:u2>', views.ips, name='ips'),
     
     path('attendance/', views.attendance, name='attendance'),
 
     path('radar/', views.radar, name='radar'),
+
+    path('user_logs/<int:tag>/<str:un>', views.user_logs, name='user_logs'),
+
+    path('simple_upload/', views.SimpleUpload, name='simple_upload'),
+
+    path('set_default_password/<int:user_id>/', views.set_default_password, name='set_default_password'),
 
 ]
 
