@@ -41,7 +41,9 @@ urlpatterns = [
 
     path('simple_upload/', views.SimpleUpload, name='simple_upload'),
 
-    path('set_default_password/<int:user_id>/', views.set_default_password, name='set_default_password'),
+    path('set_default_password/<int:user_id>/<str:deta>', views.set_default_password, name='set_default_password'),
+
+    path('hist/<int:tag>', views.hist, name='hist'),
 
 ]
 

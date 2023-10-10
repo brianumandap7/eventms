@@ -12,6 +12,7 @@ class events_details(models.Model):
     events_requestor = models.ForeignKey(User, on_delete=models.CASCADE)
     ips_url = models.CharField(max_length=250, blank=True, null=True)
     event_active = models.IntegerField(blank=True, null=True, default=1)
+    added_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
     	return str(self.events_name)+" "+" "+str(self.events_requestor)

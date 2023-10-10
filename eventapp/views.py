@@ -136,6 +136,7 @@ def edit_profile(request, pk):
     context = {
         'form': form,
         'pk': pk,
+        'det': User.objects.filter(id = pk)
     }
 
     return render(request, 'eventapp/edit_profile.html', context)
@@ -195,6 +196,14 @@ def user_logs(request, tag, un):
 
     return render(request, 'eventapp/user_logs.html', context)
 
+def hist(request, tag):
+    context = {
+    	'tag': tag,
+    	'ev': events_details.objects.filter(events_details_id = tag),
+    }
+
+    return render(request, 'eventapp/hist.html', context)
+
 def SimpleUpload(request):
     if request.method == 'POST':
         dataset = Dataset()
@@ -226,7 +235,7 @@ def SimpleUpload(request):
         return HttpResponseRedirect('/eventapp/manage_users/')
     return render(request, 'eventapp/simple_upload.html')
 
-def set_default_password(request, user_id):
+def set_default_password(request, user_id, deta):
     # Get the user by ID
     User = get_user_model()
     user = User.objects.get(pk=user_id)
@@ -236,6 +245,8 @@ def set_default_password(request, user_id):
     user.set_password(default_password)
     user.save()
 
+    #save logs
+    execu = UserLogs.objects.create(user=deta, description='Reset Password', performed_by=request.user)
     # Redirect back to the user edit page or any other appropriate page
     messages.success(request, 'Password reset successful!')
     return HttpResponseRedirect('/eventapp/manage_users/')
