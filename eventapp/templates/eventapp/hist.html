@@ -60,19 +60,24 @@
 			<td>{{items.events_requestor}}</td>
 		</tr>	
 		{% endfor %}
-	    {% for items in ulogs %}
+	    {% for items in hist %}
 	        <tr>
 	            <td>
-	               {{items.id}}
+	                {{items.id}}
 	            </td>
 	            <td>
-	               {{items.description}}
+	            	{% if items.history_type == '~' %}
+	                Changed Event Details
+
+	                {% elif items.history_type == '+' %}
+	                Created Event
+	            	{% endif %}
 	            </td>
 	            <td>
-	                {{items.date_performed}}
+	                {{items.history_date}}
 	            </td>
 	            <td>
-	                {{items.performed_by}}
+	               evm.admin
 	            </td>
 	            
 	        </tr>

@@ -42,7 +42,7 @@
     }
 
 </style>
-	<a href="/eventapp/super_user_logs/{{tag}}/{{un}}" class="btn btn-warning">Admin Console Logs</a>
+	<h5>Superadmin Console Logs for <b>{{un}}</b></h5>
 	<br><br>
 	<table class="table" id="user-table">
 	<thead class="thead">
@@ -54,45 +54,47 @@
 	    </tr>
 	</thead>
 	<tbody>
-		{% for items in us %}
-		<tr>
-			<td>-</td>
-			<td>Account Created</td>
-			<td>{{items.date_joined}}</td>
-			<td>ITS</td>
-		</tr>
-		<tr>
-			<td>-</td>
-			<td>Last logged in at FEU-EVM @ {{items.last_login|default_if_none:'No Login Record Yet'}}</td>
-			<td>{{items.last_login|default_if_none:'No Login Record Yet'}}</td>
-			<td>{{un}}</td>
-		</tr>
 		
-		{% endfor %}
-	    {% for items in hist %}
-	        <tr>
-	            <td>
-	               {{items.id}}
-	            </td>
-	            <td>
-	               {{items.description}}
-	            </td>
-	            <td>
-	                {{items.history_date}}
-	            </td>
-	            <td>
-	                {{items.performed_by}}
-	            </td>
-	            
-	        </tr>
 
-	       
+	    {% for items in superH %}
+		<tr>
+            <td>
+              	<div class="alert alert-warning"><small>SuperAdHist{{items.id}}</small></div>
+            </td>
+            <td>
+               {{items.change_message}}
+            </td>
+            <td>
+                {{items.action_time}}
+            </td>
+            <td>
+                {{items.user}}
+            </td>
+            
+        </tr>
+        {% empty %}
+
+        <tr>
+        	<td>
+        		<div class="alert alert-warning"><small>SuperAdHist00</small></div>
+        	</td>
+        	<td>
+        		No SuperAdminHistory Detected
+        	</td>
+        	<td>
+        		As of {{tn}}
+        	</td>
+        	<td>
+        		--
+        	</td>
+        </tr>
 	    {% endfor %}
+
 	    
 	</tbody>
 	</table>
 
-	<a href="/eventapp/manage_users/" class="btn btn-secondary">Go Back</a><br><br>
+    <a href="/eventapp/user_logs/{{tag}}/{{un}}" class="btn btn-secondary">Go Back</a><br><br>
 
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script> <!-- DataTables Buttons JavaScript -->
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script> <!-- DataTables Buttons Print JavaScript -->

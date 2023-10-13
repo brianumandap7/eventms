@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, Historicalevents_details
 from import_export.admin import ImportExportModelAdmin, ExportActionMixin #package
+from django.contrib.admin.models import LogEntry
+
 
 class exportSurvey(ExportActionMixin, admin.ModelAdmin): #class or function
 	pass
@@ -13,3 +15,9 @@ admin.site.register(UserProfile, exportSurvey)
 admin.site.register(AttendanceMonitoring, exportSurvey)
 
 admin.site.register(UserLogs, exportSurvey)
+
+admin.site.register(LogEntry, exportSurvey)
+
+admin.site.register(HistoricalUserLogs, exportSurvey)
+
+admin.site.register(Historicalevents_details, exportSurvey)

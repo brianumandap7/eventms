@@ -43,7 +43,9 @@ urlpatterns = [
 
     path('set_default_password/<int:user_id>/<str:deta>', views.set_default_password, name='set_default_password'),
 
-    path('hist/<int:tag>', views.hist, name='hist'),
+    path('hist/<int:tag>/<str:un>', views.hist, name='hist'),
+
+    path('super_user_logs/<int:tag>/<str:un>', views.super_user_logs, name='super_user_logs'),
 
 ]
 

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'eventapp.apps.EventappConfig',
 
     'tempus_dominus',
+    'simple_history',
 
     'login.apps.LoginConfig',
 ]
@@ -136,6 +137,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = MEDIA_DIR
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+SIMPLE_HISTORY_ENFORCE_HISTORY_MODEL_PERMISSIONS = True
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')

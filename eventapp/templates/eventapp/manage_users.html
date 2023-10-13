@@ -60,6 +60,11 @@
     <a href="/eventapp/create_user" class="btn btn-custom">Add User</a>
     <br>
     <br>
+    <!-- Filter buttons -->
+<a href="#" class="btn btn-primary btn-filter btn-sm" data-filter="all">Show All</a>
+<a href="#" class="btn btn-success btn-filter btn-sm" data-filter="active">Active Users</a>
+<a href="#" class="btn btn-danger btn-filter btn-sm" data-filter="deactivated">Deactivated Users</a>
+<br><br>
     <table class="table" id="user-table">
         <thead class="thead">
             <tr>
@@ -126,17 +131,32 @@
 
 <script>
     $(document).ready(function() {
-        $('#user-table').DataTable({
-            dom: 'Blfrtip', // Include length menu (l) and print button (B)
+        var table = $('#user-table').DataTable({
+            dom: 'Blfrtip',
             buttons: [
                 {
                     extend: 'print',
-                    className: 'btn btn-custom prnt', // Add the Bootstrap class
+                    className: 'btn btn-custom prnt',
                 }
             ]
         });
+
+        $('.btn-filter').on('click', function() {
+            var filterValue = $(this).data('filter');
+            table.search('').columns().search('').order([0, 'asc']).draw();
+
+            // Apply the filter based on the button clicked
+            if (filterValue === 'active') {
+                table.column(0).search('^(?:(?!Deactivated).)*$', true, false).draw();
+            } else if (filterValue === 'deactivated') {
+                table.column(0).search('Deactivated').draw();
+            }
+        });
     });
 </script>
+
+
+
 
 
 {% endblock content %}

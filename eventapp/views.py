@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, Historicalevents_details, HistoricalUserLogs
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
@@ -17,6 +17,12 @@ from tablib import Dataset
 import openpyxl
 
 from django.contrib.auth import get_user_model
+
+from django.contrib.admin.models import LogEntry
+
+from simple_history.models import HistoricalRecords
+
+from django.utils import timezone
 
 
 
@@ -62,7 +68,7 @@ def create_event(request):
 
 def view_event(request):
     context = {
-    	'ed': events_details.objects.all()
+    	'ed': events_details.objects.all().order_by('events_name')
     }
 
     return render(request, 'eventapp/view_event.html', context)
@@ -101,8 +107,10 @@ def ua(request, tag):
 
 def manage_users(request):
     context = {
-    	'all_users': User.objects.all().exclude(is_superuser = True),
-    }
+    	'all_users': User.objects.all().exclude(is_superuser = True).order_by('first_name'),
+    	'hr': HistoricalRecords(),    
+    	'superH': LogEntry.objects.all()
+    	}
 
     return render(request, 'eventapp/manage_users.html', context)
 
@@ -187,19 +195,38 @@ def radar(request):
     return render(request, 'eventapp/radar.html', context)
 
 def user_logs(request, tag, un):
+
+    superH = LogEntry.objects.filter(object_repr = un)
     context = {
     	'tag': tag,
     	'un': un,
     	'ulogs': UserLogs.objects.filter(user = un),
     	'us': User.objects.filter(id = tag),
+    	'superH': superH,
+    	'tn': timezone.now(),
+    	'hist': HistoricalUserLogs.objects.filter(user = un)
     }
 
     return render(request, 'eventapp/user_logs.html', context)
 
-def hist(request, tag):
+def super_user_logs(request, tag, un):
+
+    superH = LogEntry.objects.filter(object_repr = un)
     context = {
     	'tag': tag,
+    	'un': un,
+    	'superH': superH,
+    	'tn': timezone.now(),
+    }
+
+    return render(request, 'eventapp/super_user_logs.html', context)
+
+def hist(request, tag, un):
+    context = {
+    	'tag': tag,
+    	'un': un,
     	'ev': events_details.objects.filter(events_details_id = tag),
+    	'hist': Historicalevents_details.objects.all(),
     }
 
     return render(request, 'eventapp/hist.html', context)
