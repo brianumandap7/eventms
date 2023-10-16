@@ -42,7 +42,7 @@
     }
 
 </style>
-	<a href="/eventapp/super_user_elogs/{{tag}}/{{un}}" class="btn btn-warning">Admin Console Logs</a>
+	<h5>Superadmin Console Logs for <b>{{un}}</b></h5>
 	<br><br>
 	<table class="table" id="user-table">
 	<thead class="thead">
@@ -52,36 +52,49 @@
 	        <th>Date Performed</th>
 	        <th>Performed by</th>
 	    </tr>
+	</thead>
 	<tbody>
-		{% for items in ev %}
-		<tr>
-			<td>-</td>
-			<td>Event created</td>
-			<td>{{items.added_date}}</td>
-			<td>{{items.events_requestor}}</td>
-		</tr>	
-		{% endfor %}
-	    {% for items in hist %}
-	        <tr>
-	            <td>
-	                {{items.id}}
-	            </td>
-	            <td>
-	               {{items.description}}
-	            </td>
-	            <td>
-	                {{items.history_date}}
-	            </td>
-	            <td>
-	                {{items.performed_by}}
-	            </td>
-	            
-	        </tr>
+		
 
-	       
+	    {% for items in superH %}
+		<tr>
+            <td>
+              	<div class="alert alert-warning"><small>SuperAdHist{{items.id}}</small></div>
+            </td>
+            <td>
+               {{items.change_message}}
+            </td>
+            <td>
+                {{items.action_time}}
+            </td>
+            <td>
+                {{items.user}}
+            </td>
+            
+        </tr>
+        {% empty %}
+
+        <tr>
+        	<td>
+        		<div class="alert alert-warning"><small>SuperAdHist00</small></div>
+        	</td>
+        	<td>
+        		No SuperAdminHistory Detected
+        	</td>
+        	<td>
+        		As of {{tn}}
+        	</td>
+        	<td>
+        		--
+        	</td>
+        </tr>
 	    {% endfor %}
+
+	    
 	</tbody>
 	</table>
+
+    <a href="/eventapp/hist/{{tag}}/{{un}}" class="btn btn-secondary">Go Back</a><br><br>
 
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script> <!-- DataTables Buttons JavaScript -->
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script> <!-- DataTables Buttons Print JavaScript -->

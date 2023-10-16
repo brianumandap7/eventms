@@ -23,9 +23,26 @@ class events_details(models.Model):
     	return str(self.events_name)+" "+" "+str(self.events_requestor)
 
 class UserProfile(models.Model):
+    COURSE_CHOICES = [
+		('BSIT', 'BSIT'),
+		('BSBA', 'BSBA'),
+		('BSHRM', 'BSHRM'),
+		('BSTM', 'BSTM',),
+		('BSeD', 'BSeD'),
+		('BSPSYC', 'BSPSYC'),
+		('BSPS', 'BSPS'),
+		('BSMT', 'BSMT')
+    ]
+    ROLE_CHOICES = [
+    	('Student', 'Student'),
+    	('Teacher', 'Teacher'),
+    	('Guest', 'Guest'),
+    ]
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=255, blank=True, null=True)
-    course = models.CharField(max_length=255, blank=True, null=True)
+    role = models.CharField(max_length=255, blank=True, choices=ROLE_CHOICES, null=True)
+    course = models.CharField(max_length=255, blank=True, choices=COURSE_CHOICES, null=True)
+    new_pass = models.CharField(max_length=255, blank=True, default = "0", null=True)
 
     history = HistoricalRecords()
 
@@ -53,3 +70,14 @@ class UserLogs(models.Model):
 
     def __str__(self):
         return self.user+" "+str(self.description)+" "+str(self.date_performed)
+
+class EventLogs(models.Model):
+    event_id = models.CharField(max_length=255, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    performed_by = models.CharField(max_length=255, blank=True, null=True)
+    date_performed = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.event_id+" "+str(self.description)+" "+str(self.date_performed)

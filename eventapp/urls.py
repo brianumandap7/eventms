@@ -47,6 +47,11 @@ urlpatterns = [
 
     path('super_user_logs/<int:tag>/<str:un>', views.super_user_logs, name='super_user_logs'),
 
+    path('super_user_elogs/<int:tag>/<str:un>', views.super_user_elogs, name='super_user_elogs'),
+
+    path('calendar/', views.calendar, name='calendar'),
+
+    path('view_user/<int:tag>', views.view_user, name='view_user'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

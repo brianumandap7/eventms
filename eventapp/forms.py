@@ -2,6 +2,7 @@ from django import forms
 from .models import events_details
 from django.contrib.auth.models import User  # Import your model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import UserProfile
 
 class EventsDetailsForm(forms.ModelForm):
     
@@ -71,3 +72,14 @@ class CustomUserEditForm(UserChangeForm):
 
         # Remove password fields from the form
         self.fields.pop('password')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['course', 'role']
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+
+        self.fields['course'].widget.attrs['class'] = 'form-control'
+        self.fields['role'].widget.attrs['class'] = 'form-control'

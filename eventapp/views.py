@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, Historicalevents_details, HistoricalUserLogs
+from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
@@ -24,6 +24,8 @@ from simple_history.models import HistoricalRecords
 
 from django.utils import timezone
 
+from django.http import JsonResponse
+
 
 
 def admindash(request):
@@ -35,10 +37,20 @@ def admindash(request):
 	return render(request, 'eventapp/admindash.html', query)
 
 def stu(request):
-
 	session_id = request.session.session_key
+	now = timezone.now()
+	upcoming_events = events_details.objects.filter(events_schedule__gte=now)
+	evt = events_details.objects.filter(events_schedule =now)
+	pst = events_details.objects.filter(events_schedule__lt=now)
+
+	for event in upcoming_events:
+		print(event.events_schedule, event.event_active)
 	query = {
 		'session_id': session_id,
+		'now': now,
+    	'upcoming_events': upcoming_events,
+    	'evt': evt,
+    	'pst': pst,
 	}
 	return render(request, 'eventapp/stu.html', query)
 
@@ -61,7 +73,7 @@ def create_event(request):
 
     context = {
     	'form': form,
-    	'ed': events_details.objects.all()
+    	'ed': events_details.objects.all().order_by('events_name')
     }
 
     return render(request, 'eventapp/create_event.html', context)
@@ -82,6 +94,7 @@ def edit_event(request, event_id):
         if form.is_valid():
             form.save()
             # Optionally, you can redirect to a success page or display a message
+            EventLogs.objects.create(event_id = event_id, description='Event Update Successful', performed_by=request.user)
             messages.success(request, 'Event updated successfully.')
             return redirect('/eventapp/view_event')   # Change 'success_page' to the actual URL name
     else:
@@ -93,6 +106,7 @@ def ar(request, tag):
     context = {
     	'tag': tag,
     	'exec': events_details.objects.filter(events_details_id = tag).update(event_active = 0),
+    	'alog': EventLogs.objects.create(event_id=tag, description='Event Archived', performed_by=request.user),
     }
 
     return render(request, 'eventapp/ar.html', context)
@@ -101,6 +115,7 @@ def ua(request, tag):
     context = {
     	'tag': tag,
     	'exec': events_details.objects.filter(events_details_id = tag).update(event_active = 1),
+    	'alog': EventLogs.objects.create(event_id=tag, description='Event Unarchived', performed_by=request.user),
     }
 
     return render(request, 'eventapp/ua.html', context)
@@ -221,12 +236,24 @@ def super_user_logs(request, tag, un):
 
     return render(request, 'eventapp/super_user_logs.html', context)
 
+def super_user_elogs(request, tag, un):
+
+    superH = LogEntry.objects.filter(object_repr__contains = un)
+    context = {
+    	'tag': tag,
+    	'un': un,
+    	'superH': superH,
+    	'tn': timezone.now(),
+    }
+
+    return render(request, 'eventapp/super_user_elogs.html', context)
+
 def hist(request, tag, un):
     context = {
     	'tag': tag,
     	'un': un,
     	'ev': events_details.objects.filter(events_details_id = tag),
-    	'hist': Historicalevents_details.objects.all(),
+    	'hist': HistoricalEventLogs.objects.filter(event_id = tag),
     }
 
     return render(request, 'eventapp/hist.html', context)
@@ -277,5 +304,48 @@ def set_default_password(request, user_id, deta):
     # Redirect back to the user edit page or any other appropriate page
     messages.success(request, 'Password reset successful!')
     return HttpResponseRedirect('/eventapp/manage_users/')
+
+from django.http import JsonResponse
+
+def calendar(request):
+    events = events_details.objects.all()
+    event_data = []
+    for event in events:
+        if event.events_schedule:
+            event_data.append({
+                'title': event.events_name,
+                'start': event.events_schedule.isoformat(),
+                'end': event.events_schedule.isoformat(),
+                'url': f'/eventapp/hist/{event.events_details_id}/{event.events_name.replace(" ", "%20")}',
+            })
+
+    context = {
+        'event_data': event_data,
+    }
+
+    return render(request, 'eventapp/calendar.html', context)
+
+
+def view_user(request, tag):
+    profile_instance, created = UserProfile.objects.get_or_create(user_id=tag)
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('/eventapp/view_user/'+str(tag))
+    else:
+        form = UserProfileForm(instance=profile_instance)
+
+    context = {
+        'tag': tag,
+        'up': profile_instance,
+        'form': form,
+        'up1': UserProfile.objects.filter(user_id = tag),
+        'up2': User.objects.filter(id = tag),
+    }
+
+    return render(request, 'eventapp/view_user.html', context)
+
 
 

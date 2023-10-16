@@ -2,18 +2,111 @@
 {% block content %}
 {% load crispy_forms_tags %}
 {% load static %}
+<meta http-equiv="refresh" content="60">
 
-<p>Session ID: {{ session_id }}</p>
+<style>
+    .asd {
+        margin-bottom: 30px;
+        width: 500px;
+    }
+
+    .btn-custom, .btn-custom:hover {
+        background-color: #FFC107;
+        width: 100px;
+    }
+    .tl {
+        background-color: #092D13;
+        width: 180px;
+        color: white;
+        padding-right: 10px;
+        padding-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .ed {
+        margin: auto;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<h3>Welcome, {{user.first_name}} {{user.last_name}}!</h3><br>
+<div class="container-fluid ed">
+<h5 class="tl rounded">Events Today</h5>
+<ul class="list-group asd">
+    {% for event in evt %}
+        <li class="list-group-item">
+            <div class="event-thumbnail">
+                <h2 class="h4">{{ event.events_name }}</h2>
+                <p>{{ event.events_details }}</p>
+                <p><strong>Schedule:</strong> {{ event.events_schedule }}</p>
+                <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
+                <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
+            </div>
+        </li>
+        <br>
+        {% empty %}
+        <li class="list-group-item">
+            <div class="event-thumbnail">
+                <h5><small>There's no event for today - {{now}}</small></h5>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+<h5 class="tl rounded">Upcoming Events</h5>
+<ul class="list-group asd">
+    {% for event in upcoming_events %}
+        <li class="list-group-item">
+            <div class="event-thumbnail">
+                <h2 class="h4">{{ event.events_name }}</h2>
+                <p>{{ event.events_details }}</p>
+                <p><strong>Schedule:</strong> {{ event.events_schedule }}</p>
+                <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
+                <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
+            </div>
+        </li>
+        <br>
+    {% endfor %}
+</ul>
+
+<h5 class="tl rounded">Past Events</h5>
+<ul class="list-group asd">
+    {% for event in pst %}
+        <li class="list-group-item">
+            <div class="event-thumbnail">
+                <h2 class="h4">{{ event.events_name }}</h2>
+                <p>{{ event.events_details }}</p>
+                <p><strong>Schedule:</strong> {{ event.events_schedule }}</p>
+                <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
+                <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
+            </div>
+        </li>
+        <br>
+    {% endfor %}
+</ul>
+</div>
 
 
 <script>
     var session_id = "{{ session_id }}";
-    var username = "{{user}}"
-    var redirectUrl = "http://192.168.3.107:8000/eventapp/ips/" + session_id+"/"+username;
+    var username = "{{ user }}";
+    var redirectUrl = "http://192.168.3.107:8000/eventapp/ips/" + session_id + "/" + username;
 
-    setTimeout(function() {
-        window.location.href = redirectUrl;
-    }, 5000); // 5000 milliseconds (5 seconds)
+    $.ajax({
+        url: redirectUrl,
+        type: 'HEAD',
+        success: function () {
+            // The URL is available, so proceed with the redirect after 5 seconds
+            setTimeout(function() {
+                window.location.href = redirectUrl;
+            }, 5000);
+        },
+        error: function () {
+            // The URL is not available, handle it as needed
+            console.log("URL is not available");
+        }
+    });
 </script>
 
 {% endblock content %}
