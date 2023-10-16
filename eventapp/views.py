@@ -51,6 +51,7 @@ def stu(request):
     	'upcoming_events': upcoming_events,
     	'evt': evt,
     	'pst': pst,
+    	'up': UserProfile.objects.filter(user = request.user),
 	}
 	return render(request, 'eventapp/stu.html', query)
 
