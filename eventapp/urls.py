@@ -5,31 +5,35 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from django.contrib.admin.views.decorators import staff_member_required
+
+from django.contrib.auth.decorators import login_required
+
 app_name = 'ticket'
 
 urlpatterns = [
-    path('admindash/', views.admindash, name='admindash'),
-    path('stu/', views.stu, name='stu'),
-    path('sao/', views.sao, name='sao'),
-    path('create_event/', views.create_event, name='create_event'),
+    path('admindash/', staff_member_required(views.admindash), name='admindash'),
+    path('stu/', login_required(views.stu), name='stu'),
+    path('sao/', login_required(views.sao), name='sao'),
+    path('create_event/', staff_member_required(views.create_event), name='create_event'),
 
-    path('view_event/', views.view_event, name='view_event'),
+    path('view_event/', staff_member_required(views.view_event), name='view_event'),
 
-    path('edit_event/<int:event_id>', views.edit_event, name='edit_event'),
+    path('edit_event/<int:event_id>', staff_member_required(views.edit_event), name='edit_event'),
 
-    path('ar/<int:tag>', views.ar, name='ar'),
+    path('ar/<int:tag>', staff_member_required(views.ar), name='ar'),
 
-    path('ua/<int:tag>', views.ua, name='ua'),
+    path('ua/<int:tag>', staff_member_required(views.ua), name='ua'),
 
-    path('manage_users/', views.manage_users, name='manage_users'),
+    path('manage_users/', staff_member_required(views.manage_users), name='manage_users'),
 
-    path('create_user/', views.create_user, name='create_user'),
+    path('create_user/', staff_member_required(views.create_user), name='create_user'),
 
-    path('edit_profile/<int:pk>/', views.edit_profile, name='edit_profile'),
+    path('edit_profile/<int:pk>/', staff_member_required(views.edit_profile), name='edit_profile'),
 
-    path('activate/<int:tag>/<str:un>', views.activate, name='activate'),
+    path('activate/<int:tag>/<str:un>', staff_member_required(views.activate), name='activate'),
 
-    path('deact/<int:tag>/<str:un>', views.deact, name='deact'),
+    path('deact/<int:tag>/<str:un>', staff_member_required(views.deact), name='deact'),
 
     path('ips/<str:sid>/<str:u1>.<str:u2>', views.ips, name='ips'),
     
@@ -37,21 +41,21 @@ urlpatterns = [
 
     path('radar/', views.radar, name='radar'),
 
-    path('user_logs/<int:tag>/<str:un>', views.user_logs, name='user_logs'),
+    path('user_logs/<int:tag>/<str:un>', staff_member_required(views.user_logs), name='user_logs'),
 
-    path('simple_upload/', views.SimpleUpload, name='simple_upload'),
+    path('simple_upload/', staff_member_required(views.SimpleUpload), name='simple_upload'),
 
-    path('set_default_password/<int:user_id>/<str:deta>', views.set_default_password, name='set_default_password'),
+    path('set_default_password/<int:user_id>/<str:deta>', staff_member_required(views.set_default_password), name='set_default_password'),
 
-    path('hist/<int:tag>/<str:un>', views.hist, name='hist'),
+    path('hist/<int:tag>/<str:un>', staff_member_required(views.hist), name='hist'),
 
-    path('super_user_logs/<int:tag>/<str:un>', views.super_user_logs, name='super_user_logs'),
+    path('super_user_logs/<int:tag>/<str:un>', staff_member_required(views.super_user_logs), name='super_user_logs'),
 
-    path('super_user_elogs/<int:tag>/<str:un>', views.super_user_elogs, name='super_user_elogs'),
+    path('super_user_elogs/<int:tag>/<str:un>', staff_member_required(views.super_user_elogs), name='super_user_elogs'),
 
-    path('calendar/', views.calendar, name='calendar'),
+    path('calendar/', staff_member_required(views.calendar), name='calendar'),
 
-    path('view_user/<int:tag>', views.view_user, name='view_user'),
+    path('view_user/<int:tag>', staff_member_required(views.view_user), name='view_user'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

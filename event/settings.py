@@ -139,6 +139,8 @@ USE_TZ = True
 
 LOGIN_REDIRECT_URL = 'eventapp/admindash'
 
+LOGIN_URL = '/'
+
 STATICFILES_LOCATION = 'static'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
