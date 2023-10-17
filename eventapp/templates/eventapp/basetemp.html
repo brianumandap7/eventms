@@ -31,7 +31,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.min.js"></script>
 
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Tag Manager-->
     <script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-KX4JH47"></script><script>
       (function(w, d, s, l, i) {
@@ -60,6 +60,10 @@
     .scustom {
       background-color: #092D13 !important;
     }
+
+    .welc {
+      margin-left: 20px;
+    }
   </style>
   <body>
     <!-- Google Tag Manager (noscript)-->
@@ -71,6 +75,7 @@
       <div class="sidebar-brand d-none d-md-flex">
         <img src="https://www.feucavite.edu.ph/wp-content/uploads/2022/07/feucavite-newseal71522-2.png" class="img-responsive sidelogo">
       </div>
+
       <ul class="sidebar-nav simplebar-scrollable-y" data-coreui="navigation" data-simplebar="init"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;"><div class="simplebar-content" style="padding: 0px;">
 
         <li class="nav-title">EVM Pages</li>
@@ -127,29 +132,38 @@
           
           
           <ul class="header-nav ms-3">
-            <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                {{user}}
-                <div class="avatar avatar-md"><img class="avatar-img" src="data:image/png;base64,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" alt="user@email.com"></div>
-              </a>
-              <div class="dropdown-menu dropdown-menu-end pt-0">
-                
-                {% if request.user.is_superuser %}
-                	<a class="dropdown-item" href="/admin/" target = "__blank">Admin Console</a>
-                {% endif %}
+            
+            <ul class="nav">
+            
+              {% if request.user.is_superuser %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="/admin/" target="_blank">Admin Console</a>
+                  </li>
+              {% endif %}
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Account Settings</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/logout/">Logout</a>
+              </li>
 
-                <a class="dropdown-item" href="#">Account Settings</a>
 
-                <a class="dropdown-item" href="/logout/">Logout</a>
-
-                
-              </div>
-            </li>
           </ul>
+
+            
+
+
+
+          </ul>
+
+
+
         </div>
        
         
       </header>
       <div class="body flex-grow-1 px-3">
+        <strong><h5 class="welc">WELCOME, {{user}}</h5></strong>
       	{% block content %}
 
     	{% endblock content %}
@@ -166,7 +180,9 @@
     <script src="{% static 'basetemp/tfile/coreui-chartjs.js.download' %}"></script>
     <script src="{% static 'basetemp/tfile/coreui-utils.js.download' %}"></script>
     <script src="{% static 'basetemp/tfile/main.js.download' %}"></script>
-   
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.min.js"></script>
 
   
 </body></html>
