@@ -4,38 +4,30 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!--<base href="./">--><base href=".">
     
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
     <meta name="author" content="Łukasz Holeczek">
-    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <meta name="keyword" content="Bootstrap, Admin, Template, Open, Source, jQuery, CSS, HTML, RWD, Dashboard">
     <title>FEU-C EVM</title>
-    <link rel="apple-touch-icon" sizes="57x57" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <!-- Vendors styles-->
+
+    <!-- Add the correct base href for your application. -->
+    <base href="">
+
+    <!-- Favicon links -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicon/apple-icon-57x57.png' %}">
+    <!-- Add other favicon links here -->
+
+    <!-- Include your local CSS and fonts here. You can also load these statically. -->
     <link rel="stylesheet" href="{% static 'basetemp/tfile/simplebar.css' %}">
     <link rel="stylesheet" href="{% static 'basetemp/tfile/simplebar(1).css' %}">
+    <link rel="stylesheet" href="{% static 'basetemp/tfile/coreui-chartjs.css' %}">
+    <link href="{% static 'basetemp/tfile/style.css' %}" rel="stylesheet">
+    <link href="{% static 'basetemp/tfile/examples.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- Main styles for this application-->
-    <link href="{% static 'basetemp/tfile/style.css' %}" rel="stylesheet">
-    <!-- We use those styles to show code examples, you should remove them in your application.-->
-    <link href="{% static 'basetemp/tfile/examples.css' %}" rel="stylesheet">
+    
     <!-- Google Tag Manager-->
     <script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-KX4JH47"></script><script>
       (function(w, d, s, l, i) {
@@ -165,9 +157,8 @@
     </div>
     <!-- CoreUI and necessary plugins-->
     <script src="{% static 'basetemp/tfile/coreui.bundle.min.js.download' %}"></script>
-    <script src="{% static 'basetemp/tfile/simplebar.min.js.download '%}"></script>
-    <!-- Plugins and scripts required by this view-->
-    <script src="{% static 'basetemp/tfile/chart.min.js.download'%}"></script>
+    <script src="{% static 'basetemp/tfile/simplebar.min.js.download' %}"></script>
+    <script src="{% static 'basetemp/tfile/chart.min.js.download' %}"></script>
     <script src="{% static 'basetemp/tfile/coreui-chartjs.js.download' %}"></script>
     <script src="{% static 'basetemp/tfile/coreui-utils.js.download' %}"></script>
     <script src="{% static 'basetemp/tfile/main.js.download' %}"></script>
