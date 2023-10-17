@@ -135,13 +135,14 @@ STATICFILES_LOCATION = 'static'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = MEDIA_DIR
+STATIC_ROOT = STATIC_DIR
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SIMPLE_HISTORY_ENFORCE_HISTORY_MODEL_PERMISSIONS = True
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    # You can add additional directories here if needed
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
