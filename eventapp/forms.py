@@ -2,7 +2,7 @@ from django import forms
 from .models import events_details
 from django.contrib.auth.models import User  # Import your model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import UserProfile
+from .models import UserProfile, EventParticipants
 
 class EventsDetailsForm(forms.ModelForm):
     
@@ -83,3 +83,16 @@ class UserProfileForm(forms.ModelForm):
 
         self.fields['course'].widget.attrs['class'] = 'form-control'
         self.fields['role'].widget.attrs['class'] = 'form-control'
+
+class EventParticipantForm(forms.ModelForm):
+    class Meta:
+        model = EventParticipants
+        fields = ['event', 'attendee']
+
+    def __init__(self, *args, **kwargs):
+        super(EventParticipantForm, self).__init__(*args, **kwargs)
+
+        
+        self.fields['event'].widget.attrs['hidden'] = True
+        self.fields['event'].label = False
+        self.fields['attendee'].widget.attrs['class'] = 'form-control'

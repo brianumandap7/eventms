@@ -81,3 +81,11 @@ class EventLogs(models.Model):
 
     def __str__(self):
         return self.event_id+" "+str(self.description)+" "+str(self.date_performed)
+
+class EventParticipants(models.Model):
+	event = models.ForeignKey(events_details, on_delete=models.SET_NULL, blank=True, null=True, related_name='event_participant')
+	ei = models.CharField(max_length=255, blank=True, null=True)
+	attendee = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, blank=True, null=True, related_name='attendee')
+
+	def __str__(self):
+		return str(self.event)+" "+str(self.attendee)

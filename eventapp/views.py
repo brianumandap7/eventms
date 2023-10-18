@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs
+from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
@@ -87,9 +87,26 @@ def view_event(request):
     return render(request, 'eventapp/view_event.html', context)
 
 def event_det(request, tag):
+    event = events_details.objects.get(events_details_id=tag)
+    participants = EventParticipants.objects.filter(event=event)
+
+    if request.method == 'POST':
+        form = EventParticipantForm(request.POST)
+        if form.is_valid():
+            # Get the selected attendee and create a participant with the event and attendee
+            attendee = form.cleaned_data['attendee']
+            participant = EventParticipants(event=event, attendee=attendee)
+            participant.save()
+            return redirect('/eventapp/event_det/'+str(tag))
+    else:
+        form = EventParticipantForm(initial={'event': event})
+
     context = {
-    	'tag': tag,
-    	'ev': events_details.objects.filter(events_details_id = tag),
+        'tag': tag,
+        'event': event,
+        'participants': participants,
+        'form': form,
+        'ev': events_details.objects.filter(events_details_id = tag),
     }
 
     return render(request, 'eventapp/event_det.html', context)
