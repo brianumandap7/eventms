@@ -1,0 +1,119 @@
+{% extends "eventapp/basetemp.html" %}
+
+{% block content %}
+<style>
+    /* Your existing CSS styles here */
+
+    /* Custom styles for the modal */
+    .modal-dialog {
+        max-width: 400px;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+    .profile-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        text-align: center;
+    }
+    h1 {
+        color: #092D13;
+    }
+    p {
+        font-size: 16px;
+    }
+
+    .btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+        width: 100px;
+    }
+
+    table {
+        margin-top: 10px;
+    }
+    .thead {
+        background-color: #092D13;
+        color: white;
+    }
+
+    .prnt {
+        margin-bottom: 20px;
+        float: right;
+        margin-top: 33px;
+        margin-left: 20px;
+    }
+
+    .bu, .bu:hover {
+        width: 150px;
+    }
+
+    .small-text {
+        font-size: 12px;
+    }
+</style>
+
+<div class="profile-container">
+    {% for items in ev %}
+        <p><img src="https://via.placeholder.com/100x100/FFC107/000000?text=FEUC-Event" class="small-text" alt="User Profile">
+</p>
+        <p><strong>Event Name:</strong> {{items.events_name}}</p>
+        <p><strong>Description:</strong> {{items.events_details}}</p>
+        <p><strong>Date:</strong> {{items.events_schedule}}</p>
+        <p><strong>IPS Url:</strong> {{items.ips_url}}</p>
+    {% empty %}
+        <p class="bg-warning"><strong>No Profile Established</strong></p>
+    {% endfor %}
+
+     <p><a class="btn btn-custom btn-sm" data-toggle="modal" data-target="#editProfileModal">Add Participants</a></p>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Add Participants</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-custom">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <strong>Participants</strong>
+    <table class="table" id="user-table">
+        <thead class="thead">
+            <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Course</th>
+            </tr>
+        </thead>
+       
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% endblock content %}

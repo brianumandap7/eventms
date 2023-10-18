@@ -56,6 +56,8 @@ urlpatterns = [
     path('calendar/', staff_member_required(views.calendar), name='calendar'),
 
     path('view_user/<int:tag>', staff_member_required(views.view_user), name='view_user'),
+
+    path('event_det/<int:tag>', staff_member_required(views.event_det), name='event_det'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -86,6 +86,14 @@ def view_event(request):
 
     return render(request, 'eventapp/view_event.html', context)
 
+def event_det(request, tag):
+    context = {
+    	'tag': tag,
+    	'ev': events_details.objects.filter(events_details_id = tag),
+    }
+
+    return render(request, 'eventapp/event_det.html', context)
+
 
 def edit_event(request, event_id):
     event = get_object_or_404(events_details, pk=event_id)

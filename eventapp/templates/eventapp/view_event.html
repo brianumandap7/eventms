@@ -93,7 +93,7 @@
                         {{items.events_requestor}}
                     </td>
                    <td>
-                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                        <a href="/eventapp/event_det/{{items.events_details_id}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                         <a href="/eventapp/edit_event/{{items.events_details_id}}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                         {% if items.event_active == 1 %}
                             <a href="/eventapp/ar/{{items.events_details_id}}" class="btn btn-danger btn-sm">
