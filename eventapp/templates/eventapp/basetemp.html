@@ -130,7 +130,9 @@
         <div class="container-fluid">
           <button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector(&#39;#sidebar&#39;)).toggle()">
 
-        <span class="navbar-toggler-icon">--</span>
+        <span class="navbar-toggler-icon">
+          <h5><small>{{user}}</small></h5>
+        </span>
           </button>
 
           
@@ -167,7 +169,7 @@
         
       </header>
       <div class="body flex-grow-1 px-3">
-        <strong><h5 class="welc">WELCOME, {{user}}!</h5></strong>
+        
       	{% block content %}
 
     	{% endblock content %}
@@ -185,7 +187,7 @@
     <script src="{% static 'basetemp/tfile/coreui-utils.js.download' %}"></script>
     <script src="{% static 'basetemp/tfile/main.js.download' %}"></script>
 
-    
+
 
 
   

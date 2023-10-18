@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 app_name = 'ticket'
 
 urlpatterns = [
-    path('admindash/', staff_member_required(views.admindash), name='admindash'),
+    path('admindash/', login_required(views.admindash), name='admindash'),
     path('stu/', login_required(views.stu), name='stu'),
     path('sao/', login_required(views.sao), name='sao'),
     path('create_event/', staff_member_required(views.create_event), name='create_event'),
