@@ -26,8 +26,12 @@ from django.utils import timezone
 
 from django.http import JsonResponse
 
+from django.db.models import Q
+
+from datetime import date, datetime
 
 
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
 def admindash(request):
 	query = {
 		's_count': User.objects.all().exclude(is_staff = True).count(),
@@ -395,6 +399,56 @@ def view_user(request, tag):
     }
 
     return render(request, 'eventapp/view_user.html', context)
+
+def filter_user(request):
+    # Check if the start and end months and year have been provided in the request
+    start_month = request.GET.get('start_month')
+    end_month = request.GET.get('end_month')
+    year = request.GET.get('year')
+
+    users_in_month_range = None
+
+    if start_month and end_month and year:
+        # Convert the input into integers
+        start_month = int(start_month)
+        end_month = int(end_month)
+        year = int(year)
+
+        # Perform input validation to ensure that the selected month is valid
+        if start_month < 1 or start_month > 12 or end_month < 1 or end_month > 12:
+            return render(request, 'error_template.html', {'error_message': 'Invalid month selection'})
+
+        # Calculate the start and end datetime objects for the range
+        start_date = datetime(year, start_month, 1)
+        
+        # Calculate the last day of the end month manually
+        if end_month == 12:
+            last_day_of_end_month = 31
+        else:
+            last_day_of_end_month = (datetime(year, end_month + 1, 1) - datetime(year, end_month, 1)).days - 1
+        
+        end_date = datetime(year, end_month, last_day_of_end_month, 23, 59, 59)
+
+        # Create a Q object to filter the User model based on the date_joined field
+        month_range_filter = Q(date_joined__range=(start_date, end_date))
+
+        # Query the User model with the filter
+        users_in_month_range = User.objects.filter(month_range_filter)
+
+    context = {
+        'users_in_month_range': users_in_month_range,
+        'start_month': start_month,
+        'end_month': end_month,
+        'year': year,
+    }
+
+    return render(request, 'eventapp/filter_user.html', context)
+
+def filter_event(request):
+    context = {
+    	
+    }
+    return render(request, 'eventapp/filter_event.html', context)
 
 
 

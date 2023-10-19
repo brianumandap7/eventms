@@ -1,0 +1,173 @@
+{% extends "eventapp/basetemp.html" %}
+
+{% block content %}
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<style>
+    .btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+    }
+    table {
+        margin-top: 10px;
+    }
+    .thead, th {
+        background-color: #092D13;
+        color: white;
+    }
+
+    .ar {
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .prnt {
+        margin-bottom: 20px;
+        float: right;
+        margin-top: 33px;
+        margin-left: 20px;
+    }
+
+    .bu, .bu:hover {
+        width: 150px;
+    }
+
+</style>
+<form method="get">
+    {% csrf_token %}
+         <form method="get">
+        <label for="start_month">Start Month:</label>
+        <select name="start_month" required>
+            <option value="">Select a start month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+        
+        <label for="end_month">End Month:</label>
+        <select name="end_month" required>
+            <option value="">Select a end month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+            <!-- Add options for all months -->
+        </select>
+        
+        <label for="year">Year:</label>
+        <select name="year" required>
+            <option value="">Select a year</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+            <!-- Add options for other years as needed -->
+        </select>
+        
+        <button type="submit" class="btn btn-custom">Filter Users</button>
+    </form>
+    <br>
+    <div id="dateRange">
+        <p>Selected Date Range:</p>
+        <p>Start Month: <span id="startMonthDisplay">
+            {% if start_month == 1 %} January
+            {% elif start_month == 2 %} February
+            {% elif start_month == 3 %} March
+            {% elif start_month == 4 %} April
+            {% elif start_month == 5 %} May
+            {% elif start_month == 6 %} June
+            {% elif start_month == 7 %} July
+            {% elif start_month == 8 %} August
+            {% elif start_month == 9 %} September
+            {% elif start_month == 10 %} October
+            {% elif start_month == 11 %} November
+            {% elif start_month == 12 %} December
+            {% endif %}</span></p>
+        <p>End Month: <span id="endMonthDisplay">
+            {% if end_month == 1 %} January
+            {% elif end_month == 2 %} February
+            {% elif end_month == 3 %} March
+            {% elif end_month == 4 %} April
+            {% elif end_month == 5 %} May
+            {% elif end_month == 6 %} June
+            {% elif end_month == 7 %} July
+            {% elif end_month == 8 %} August
+            {% elif end_month == 9 %} September
+            {% elif end_month == 10 %} October
+            {% elif end_month == 11 %} November
+            {% elif end_month == 12 %} December
+
+            {% endif %}
+        </span></p>
+        <p>Year: <span id="yearDisplay">{{ year }}</span></p>
+    </div>
+    <br>
+
+    <table id="userTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date Joined</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users_in_month_range %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.date_joined }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function() {
+        var table = $('#userTable').DataTable({
+            dom: 'Blfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+                    className: 'btn btn-custom prnt',
+                }
+            ]
+        });
+
+    });
+</script>
+
+
+{% endblock content %}
