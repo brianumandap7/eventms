@@ -433,7 +433,7 @@ def filter_user(request):
         month_range_filter = Q(date_joined__range=(start_date, end_date))
 
         # Query the User model with the filter
-        users_in_month_range = User.objects.filter(month_range_filter)
+        users_in_month_range = User.objects.filter(month_range_filter).exclude(is_superuser = True)
 
     context = {
         'users_in_month_range': users_in_month_range,
