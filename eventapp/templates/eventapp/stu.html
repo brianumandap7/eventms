@@ -13,6 +13,11 @@
     }
 
     .btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+    }
+
+    .btn-custom1, .btn-custom1:hover {
         background-color: #FFC107;
         width: 100px;
     }
@@ -30,7 +35,40 @@
         margin: auto;
     }
 </style>
+<div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordChangeModalLabel">Change Password Required</h5>
 
+                </div>
+                <div class="modal-body">
+                    <!-- Password change form goes here -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- Include form fields for the new password -->
+                        <!-- For example: -->
+                        <label for="new_password"><strong>New Password:</strong></label>
+                        <input type="password" name="new_password" id="new_password" class="form-control">
+                        <br>
+                        <!-- Add any other required form fields -->
+                        <button type="submit" class="btn btn-custom">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- end of modal pass -->
+
+      <script>
+          $(document).ready(function () {
+              // Check if new_pass is '0' or if UserProfile doesn't exist
+              {% if user.userprofile.new_pass == '0' or not user.userprofile %}
+                  // Show the password change modal
+                  $('#passwordChangeModal').modal('show');
+              {% endif %}
+          });
+      </script>   
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <h3>Welcome, {{user.first_name}} {{user.last_name}}!</h3><br>
 <div class="container-fluid ed">
@@ -65,7 +103,7 @@
                 <p>{{ event.events_details }}</p>
                 <p><strong>Schedule:</strong> {{ event.events_schedule }}</p>
                 <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
-                <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
+                <a href="{{ event.ips_url }}" class="btn btn-custom1 btn-sm">More Info</a>
             </div>
         </li>
         <br>

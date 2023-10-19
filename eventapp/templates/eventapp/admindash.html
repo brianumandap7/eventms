@@ -21,8 +21,50 @@
     window.location.href = 'http://192.168.3.107:8000/eventapp/radar/';
   </script>
 {% endif %}
+
+<style>
+  .btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+    }
+</style>
 <div class="container-lg">
-          
+
+  <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordChangeModalLabel">Change Password Required</h5>
+
+                </div>
+                <div class="modal-body">
+                    <!-- Password change form goes here -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- Include form fields for the new password -->
+                        <!-- For example: -->
+                        <label for="new_password"><strong>New Password:</strong></label>
+                        <input type="password" name="new_password" id="id_password1" class="form-control">
+                        <div id="password-alert" class="alert" role="alert"></div>
+                        <br>
+                        <!-- Add any other required form fields -->
+                        <button type="submit" class="btn btn-custom">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- end of modal pass -->
+
+      <script>
+          $(document).ready(function () {
+              // Check if new_pass is '0' or if UserProfile doesn't exist
+              {% if user.userprofile.new_pass == '0' or not user.userprofile %}
+                  // Show the password change modal
+                  $('#passwordChangeModal').modal('show');
+              {% endif %}
+          });
+      </script>   
           <div class="row">
             <div class="col-sm-6 col-lg-3">
               <div class="card mb-4 text-white bg-primary">
@@ -157,5 +199,32 @@
 
           <!-- /.row-->
         </div>
+
+<script>
+    $(function () {
+        $('#id_password1').on('input', function () {
+            var password1 = $('#id_password1').val();
+            var alertDiv = $('#password-alert');
+            
+            var isLengthValid = password1.length >= 8;
+            var hasUpperCase = /[A-Z]/.test(password1);
+            var hasLowerCase = /[a-z]/.test(password1);
+            var hasDigit = /\d/.test(password1);
+
+            if (!isLengthValid || !hasUpperCase || !hasLowerCase || !hasDigit) {
+                alertDiv.removeClass('alert-success').addClass('alert-danger');
+                alertDiv.html('<strong>Password criteria:</strong><br>' +
+                              '- Minimum 8 characters<br>' +
+                              '- At least one uppercase letter<br>' +
+                              '- At least one lowercase letter<br>' +
+                              '- At least one digit');
+            }
+            else {
+                alertDiv.removeClass('alert-danger').addClass('alert-success');
+                alertDiv.text('Password meets the criteria.');
+            }
+        });
+    });
+</script>
 
 {% endblock content %}

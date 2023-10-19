@@ -34,6 +34,22 @@ def admindash(request):
 		't_count': User.objects.all().exclude(is_staff = False).count(),
 		'e_count': events_details.objects.all().count(),
 	}
+
+	if request.method == 'POST':
+		db = User.objects.get(username = request.user)
+		new_password = request.POST.get('new_password')
+		db.set_password(new_password)
+		db.save()
+
+		try:
+			user_profile = UserProfile.objects.get(user=request.user)
+			user_profile.new_pass = '1'
+			user_profile.save()
+		except UserProfile.DoesNotExist:
+			pass
+
+		messages.success(request, 'Your password was successfully updated.')
+		return redirect('/')
 	return render(request, 'eventapp/admindash.html', query)
 
 def stu(request):
