@@ -90,9 +90,19 @@ class EventParticipantForm(forms.ModelForm):
         fields = ['event', 'attendee']
 
     def __init__(self, *args, **kwargs):
+        event = kwargs.pop('event', None)
         super(EventParticipantForm, self).__init__(*args, **kwargs)
 
-        
-        self.fields['event'].widget.attrs['hidden'] = True
+        # Hide the 'event' field and set its initial value
+        self.fields['event'].widget = forms.HiddenInput()
         self.fields['event'].label = False
+        self.fields['event'].initial = event
+
+        # Customize the queryset for the 'attendee' field to exclude existing participants
+        if event:
+            existing_participants = EventParticipants.objects.filter(event=event)
+            existing_attendees = existing_participants.values_list('attendee_id', flat=True)
+            self.fields['attendee'].queryset = UserProfile.objects.exclude(id__in=existing_attendees)
+
+        # Add a CSS class to the 'attendee' field
         self.fields['attendee'].widget.attrs['class'] = 'form-control'

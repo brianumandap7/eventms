@@ -91,7 +91,7 @@ def event_det(request, tag):
     participants = EventParticipants.objects.filter(event=event)
 
     if request.method == 'POST':
-        form = EventParticipantForm(request.POST)
+        form = EventParticipantForm(request.POST, event=event)  # Pass the event object to the form
         if form.is_valid():
             # Get the selected attendee and create a participant with the event and attendee
             attendee = form.cleaned_data['attendee']
@@ -99,14 +99,15 @@ def event_det(request, tag):
             participant.save()
             return redirect('/eventapp/event_det/'+str(tag))
     else:
-        form = EventParticipantForm(initial={'event': event})
+        form = EventParticipantForm(initial={'event': event}, event=event)  # Pass the event object to the form
 
     context = {
         'tag': tag,
         'event': event,
         'participants': participants,
         'form': form,
-        'ev': events_details.objects.filter(events_details_id = tag),
+        'ev': events_details.objects.filter(events_details_id=tag),
+        'ep': EventParticipants.objects.filter(event_id=tag)
     }
 
     return render(request, 'eventapp/event_det.html', context)

@@ -36,7 +36,9 @@
         color: white;
         width: 100px;
     }
-
+    .alert-custom {
+        background-color: #ffc107;
+    }
     table {
         margin-top: 10px;
     }
@@ -60,21 +62,32 @@
         font-size: 12px;
     }
 </style>
-
-<div class="profile-container">
-    {% for items in ev %}
-        <p><img src="https://via.placeholder.com/100x100/FFC107/000000?text=FEUC-Event" class="small-text" alt="User Profile">
-</p>
-        <p><strong>Event Name:</strong> {{items.events_name}}</p>
-        <p><strong>Description:</strong> {{items.events_details}}</p>
-        <p><strong>Date:</strong> {{items.events_schedule}}</p>
-        <p><strong>IPS Url:</strong> {{items.ips_url}}</p>
-    {% empty %}
-        <p class="bg-warning"><strong>No Profile Established</strong></p>
-    {% endfor %}
-
-     <p><a class="btn btn-custom btn-sm" data-toggle="modal" data-target="#editProfileModal">Add Participants</a></p>
+<div class="alert alert-custom" role="alert">
+  <h4 class="alert-heading">Profile Completion Required</h4>
+  <p>Only users with a profile can be included as participants in this event.</p>
+  <hr>
+  <p class="mb-0">Please make sure your profile is up-to-date before selecting a participant.</p>
 </div>
+
+
+
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-xs-12">
+        <!-- Column 1: Existing content -->
+        <div class="profile-container">
+            {% for items in ev %}
+                <p><img src="https://via.placeholder.com/100x100/FFC107/000000?text=FEUC-Event" class="small-text" alt="User Profile"></p>
+                <p><strong>Event Name:</strong> {{items.events_name}}</p>
+                <p><strong>Description:</strong> {{items.events_details}}</p>
+                <p><strong>Date:</strong> {{items.events_schedule}}</p>
+                <p><strong>IPS Url:</strong> {{items.ips_url}}</p>
+            {% empty %}
+                <p class="bg-warning"><strong>No Profile Established</strong></p>
+            {% endfor %}
+
+            <p><a class="btn btn-custom btn-sm" data-toggle="modal" data-target="#editProfileModal">Add Participants</a></p>
+        </div>
+    </div>
 
 <!-- Edit Profile Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
@@ -97,19 +110,34 @@
     </div>
 </div>
 
-<div class="container-fluid">
-    <strong>Participants</strong>
-    <table class="table" id="user-table">
-        <thead class="thead">
-            <tr>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Course</th>
-            </tr>
-        </thead>
-       
-    </table>
+ <div class="col-lg-8 col-md-8 col-xs-12">
+        <!-- Column 2: Participant List and Table -->
+        <div class="container-fluid">
+            <strong>Participants</strong>
+            <table class="table" id="user-table">
+                <thead class="thead">
+                    <tr>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for items in ep %}
+                        <tr>
+                            <td>{{items.attendee}}</td>
+                            <td>{{items.attendee.user.first_name}} {{items.attendee.user.last_name}}</td>
+                            <td>{{items.attendee.user.email}}</td>
+                            <td>{{items.attendee.course}}</td>
+                            <td>{{items.attendee.role}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
