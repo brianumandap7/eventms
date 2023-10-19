@@ -56,7 +56,19 @@
         {% endfor %}
     {% endif %}
     <h1>Manage Users</h1>
-    <a href="/eventapp/simple_upload/" class="btn btn-custom bu">Bulk Upload</a>
+    <a href="/eventapp/simple_upload/" class="btn btn-custom bu" onclick="openPopup(this.href); return false;">Bulk Upload</a>
+
+    <script>
+    function openPopup(url) {
+        var width = 800; // Set the desired width
+        var height = 400; // Set the desired height
+        var left = (window.innerWidth - width) / 2;
+        var top = (window.innerHeight - height) / 2;
+        var options = 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
+        window.open(url, 'Popup', options);
+    }
+    </script>
+
     <a href="/eventapp/create_user" class="btn btn-custom">Add User</a>
     <br>
     <br>

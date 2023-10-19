@@ -41,6 +41,8 @@ urlpatterns = [
 
     path('radar/', views.radar, name='radar'),
 
+    path('cw/', views.cw, name='cw'),
+
     path('user_logs/<int:tag>/<str:un>', staff_member_required(views.user_logs), name='user_logs'),
 
     path('simple_upload/', staff_member_required(views.SimpleUpload), name='simple_upload'),

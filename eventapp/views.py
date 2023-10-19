@@ -263,6 +263,12 @@ def super_user_logs(request, tag, un):
 
     return render(request, 'eventapp/super_user_logs.html', context)
 
+def cw(request):
+    context = {
+    	
+    }
+    return render(request, 'eventapp/cw.html', context)
+
 def super_user_elogs(request, tag, un):
 
     superH = LogEntry.objects.filter(object_repr__contains = un)
@@ -313,7 +319,7 @@ def SimpleUpload(request):
             user.save()
 
         messages.success(request, 'Users created successfully via bulk upload!')
-        return HttpResponseRedirect('/eventapp/manage_users/')
+        return HttpResponseRedirect('/eventapp/cw/')
     return render(request, 'eventapp/simple_upload.html')
 
 def set_default_password(request, user_id, deta):
