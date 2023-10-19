@@ -1,0 +1,88 @@
+{% extends "eventapp/basetemp.html" %}
+
+{% block content %}
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<style>
+    .btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+    }
+    table {
+        margin-top: 10px;
+    }
+    .thead, th {
+        background-color: #092D13;
+        color: white;
+    }
+
+    .ar {
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .prnt {
+        margin-bottom: 20px;
+        float: right;
+        margin-top: 33px;
+        margin-left: 20px;
+    }
+
+    .bu, .bu:hover {
+        width: 150px;
+    }
+
+</style>
+<form method="get">
+    {% csrf_token %}
+         <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Filter Events</button>
+</form>
+
+<h2>Filtered Events:</h2>
+
+{% if filtered_events %}
+    <p>Events from {{ start_date }} to {{ end_date }}:</p>
+    <ul>
+        {% for event in filtered_events %}
+            <li>{{ event.events_name }} - {{ event.events_schedule }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No events match the selected date range.</p>
+{% endif %}
+
+<h2>All Events:</h2>
+
+<ul>
+    {% for event in events %}
+        <li>{{ event.events_name }} - {{ event.events_schedule }}</li>
+    {% endfor %}
+</ul>
+
+
+<script>
+    $(document).ready(function() {
+        var table = $('#userTable').DataTable({
+            dom: 'Blfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+                    className: 'btn btn-custom prnt',
+                }
+            ]
+        });
+
+    });
+</script>
+
+
+{% endblock content %}

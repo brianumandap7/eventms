@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm
+from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm, DateRangeForm
 from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants
 from django.contrib import messages
 from django.views.generic.base import View
@@ -445,9 +445,30 @@ def filter_user(request):
     return render(request, 'eventapp/filter_user.html', context)
 
 def filter_event(request):
+    events = events_details.objects.all()
+    filtered_events = None
+    start_date = None
+    end_date = None
+
+    if request.method == 'GET':
+        form = DateRangeForm(request.GET)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+
+            filtered_events = events.filter(events_schedule__range=(start_date, end_date))
+
+    else:
+        form = DateRangeForm()
+
     context = {
-    	
+        'events': events,
+        'filtered_events': filtered_events,
+        'start_date': start_date,
+        'end_date': end_date,
+        'form': form,
     }
+
     return render(request, 'eventapp/filter_event.html', context)
 
 

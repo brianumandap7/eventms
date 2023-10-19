@@ -106,3 +106,8 @@ class EventParticipantForm(forms.ModelForm):
 
         # Add a CSS class to the 'attendee' field
         self.fields['attendee'].widget.attrs['class'] = 'form-control'
+
+class DateRangeForm(forms.Form):
+    start_date = forms.DateTimeField(label='Start Date', widget=forms.TextInput(attrs={'type': 'date'}))
+    end_date = forms.DateTimeField(label='End Date', widget=forms.TextInput(attrs={'type': 'date'}))
+
