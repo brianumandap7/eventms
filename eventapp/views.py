@@ -30,6 +30,10 @@ from django.db.models import Q
 
 from datetime import date, datetime
 
+from event.settings import EMAIL_HOST_USER
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
+
 
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
 def admindash(request):
@@ -470,6 +474,34 @@ def filter_event(request):
     }
 
     return render(request, 'eventapp/filter_event.html', context)
+
+def p_reset(request):
+    if request.method == 'POST':
+        emailadd = request.POST.get('eadd')
+        
+        try:
+            user = User.objects.get(email=emailadd)
+            if user:
+                # Generate a reset link, you should use a proper URL
+                reset_link = '/eventapp/linkreset/'  # Replace with your actual reset URL
+
+                subject = 'Reset Password'
+                message = f'Good day, click on the link to reset your password: {reset_link}'
+                from_email = 'evm.feu@gmail.com'  # Replace with the email you want to use as "From" address
+                recipient = [emailadd]
+
+                send_mail(subject, message, from_email, recipient, fail_silently=False)
+                messages.info(request, "A link for password reset has been sent to your email address. Kindly check your email or contact the IT Administrator at (02) 0022 local 31.")
+
+                return render(request, 'eventapp/p_reset.html')
+            else:
+                messages.info(request, 'Failed!')
+                return render(request, 'eventapp/p_reset.html')
+        except ObjectDoesNotExist:
+            messages.info(request, 'Email Not Found')
+            return render(request, 'eventapp/p_reset.html')
+
+    return render(request, 'eventapp/p_reset.html')
 
 
 

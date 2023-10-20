@@ -38,40 +38,42 @@
     .bu, .bu:hover {
         width: 150px;
     }
-
+    .sd {
+        width: 25%;
+    }
 </style>
 <form method="get">
     {% csrf_token %}
-         <form method="get">
     {{ form.as_p }}
-    <button type="submit">Filter Events</button>
+    <button type="submit" class = "btn btn-custom">Filter Events</button>
 </form>
 
+<br>
 <h2>Filtered Events:</h2>
 
-{% if filtered_events %}
     <p>Events from {{ start_date }} to {{ end_date }}:</p>
-    <ul>
+   <table id="eventsTable" class="display">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Event Schedule</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for event in filtered_events %}
-            <li>{{ event.events_name }} - {{ event.events_schedule }}</li>
+            <tr>
+                <td>{{ event.events_name }}</td>
+                <td>{{ event.events_schedule }}</td>
+            </tr>
         {% endfor %}
-    </ul>
-{% else %}
-    <p>No events match the selected date range.</p>
-{% endif %}
+    </tbody>
+</table>
 
-<h2>All Events:</h2>
-
-<ul>
-    {% for event in events %}
-        <li>{{ event.events_name }} - {{ event.events_schedule }}</li>
-    {% endfor %}
-</ul>
 
 
 <script>
     $(document).ready(function() {
-        var table = $('#userTable').DataTable({
+        var table = $('#eventsTable').DataTable({
             dom: 'Blfrtip',
             buttons: [
                 {
