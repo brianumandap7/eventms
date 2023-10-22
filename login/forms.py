@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
@@ -5,42 +6,44 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class CustomAuthForm(AuthenticationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password']
-
     error_messages = {
-        'invalid_login': 'Failed to Log in. Contact your System Administrator.',
-        'inactive': 'Your account is deactivated. Please contact your System administrator.',
-        'non_existent_user': 'Failed to Log in. Contact your System Administrator.',
+        'invalid_login': 'Failed to log in. Please check your credentials.',
+        'inactive': 'Your account is deactivated. Please contact your system administrator.',
     }
 
-    def __init__(self, *args, **kwargs):
-        super(CustomAuthForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
-        self.fields['username'].label = False
-        self.fields['password'].widget = forms.PasswordInput(attrs={'class': 'form-control pword', 'placeholder': 'Password'})
-        self.fields['password'].label = False
+    username = forms.CharField(
+        max_length=254,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username or Email'}),
+        label=False,
+    )
 
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control pword', 'placeholder': 'Password'}),
+        label=False,  # Remove the label for the password field
+    )
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 
         if username and password:
-            try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                user = None
+            if '@' in username:
+                # If the username contains '@', assume it's an email address
+                user = User.objects.filter(email=username).first()
+            else:
+                user = User.objects.filter(username=username).first()
 
-            if user is not None and not user.is_active:
+            if user is not None and user.check_password(password):
+                if user.is_active:
+                    self.user_cache = user
+                else:
+                    raise forms.ValidationError(
+                        self.error_messages['inactive'],
+                        code='inactive',
+                    )
+            else:
                 raise forms.ValidationError(
-                    self.error_messages['inactive'],
-                    code='inactive',
-                )
-            elif user is None:
-                raise forms.ValidationError(
-                    self.error_messages['non_existent_user'],
-                    code='non_existent_user',
+                    self.error_messages['invalid_login'],
+                    code='invalid_login',
                 )
 
-        return super(CustomAuthForm, self).clean()
+        return self.cleaned_data
