@@ -66,6 +66,7 @@ def stu(request):
 	upcoming_events = events_details.objects.filter(events_schedule__gte=now)
 	evt = events_details.objects.filter(events_schedule =now)
 	pst = events_details.objects.filter(events_schedule__lt=now)
+	belong = EventParticipants.objects.filter(attendee__user = request.user)
 
 	for event in upcoming_events:
 		print(event.events_schedule, event.event_active)
@@ -76,6 +77,7 @@ def stu(request):
     	'evt': evt,
     	'pst': pst,
     	'up': UserProfile.objects.filter(user = request.user),
+    	'belong': belong,
 	}
 	return render(request, 'eventapp/stu.html', query)
 
