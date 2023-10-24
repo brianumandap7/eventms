@@ -88,7 +88,7 @@
                 <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
                 <p><strong>{% for event_participant in belong %}
                         {% if event_participant.event.events_details_id == event.events_details_id %}
-                            <div class="alert alert-danger">You are invited in this event</div>
+                            <div class="alert alert-success">You are invited in this event</div>
                         {% endif %}
                     {% endfor %}</strong></p>
                 <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
@@ -115,7 +115,7 @@
                 <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
                 <p><strong>{% for event_participant in belong %}
                         {% if event_participant.event.events_details_id == event.events_details_id %}
-                            <div class="alert alert-danger">You are invited in this event</div>
+                            <div class="alert alert-success">You are invited in this event</div>
                         {% endif %}
                     {% endfor %}</strong></p>
                 <a href="{{ event.ips_url }}" class="btn btn-custom1 btn-sm">More Info</a>
@@ -136,7 +136,7 @@
                 <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
                 <p><strong>{% for event_participant in belong %}
                         {% if event_participant.event.events_details_id == event.events_details_id %}
-                            <div class="alert alert-danger">You are invited in this event</div>
+                            <div class="alert alert-success">You are invited in this event</div>
                         {% endif %}
                     {% endfor %}</strong></p>
                 <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>

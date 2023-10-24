@@ -249,7 +249,7 @@ def ips(request, sid, u1, u2):
 	    	'sid': sid,
 	    	'u1': u1,
 	    	'u2': u2,
-	    	'executed_attendance': AttendanceMonitoring.objects.create(attendee=u1+"."+u2,events_details_id=13,sess_id=sid)
+	    	'executed_attendance': AttendanceMonitoring.objects.create(attendee=u1+"."+u2,events_details_id='13',sess_id=sid)
     }
 	return render(request, 'eventapp/ips.html', context)
 
