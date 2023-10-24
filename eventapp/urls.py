@@ -65,6 +65,10 @@ urlpatterns = [
     path('filter_event/', staff_member_required(views.filter_event), name='filter_event'),
 
     path('p_reset/', views.p_reset, name='p_reset'),
+
+    path('change_p/', views.change_p, name='change_p'),
+
+    path('rpo/<str:un>', views.rpo, name='rpo'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

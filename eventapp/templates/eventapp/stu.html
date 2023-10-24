@@ -1,9 +1,14 @@
 {% extends 'eventapp/basetemp.html' %}
 {% block content %}
 {% load crispy_forms_tags %}
-{% load static %}
+{% load static %}                                   
 
 {% for i in up %}
+    {% if user.userprofile.new_pass == '0' or not user.userprofile %}
+    <script>
+        window.location.href = '/eventapp/change_p';
+    </script>
+    {% endif %}
 <meta http-equiv="refresh" content="60">
 
 <style>

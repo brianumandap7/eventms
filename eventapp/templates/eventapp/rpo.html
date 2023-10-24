@@ -1,0 +1,55 @@
+{% extends "eventapp/basetemp.html" %}
+
+{% block content %}
+<style>
+	.cp {
+		width: 500px;
+	}
+
+	.btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+        width: 200px;
+    }
+</style>
+<center>
+	<strong><h3>Change Password Required!</h3></strong>
+
+	<form method="POST">
+		{% csrf_token %}
+		<b>Password:</b>
+			<input type="password" name="new_password" class="form-control cp" id="id_password1" required>
+			<div id="password-alert" class="alert" role="alert"></div>
+		<br>
+		<input type="submit" name="pword" class="btn btn-custom">
+	</form>
+</center>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <!-- Make sure jQuery is included -->
+
+<script>
+$(document).ready(function () { // Ensure the DOM is fully loaded
+    $('#id_password1').on('input', function () {
+        var password1 = $('#id_password1').val();
+        var alertDiv = $('#password-alert');
+        
+        var isLengthValid = password1.length >= 8;
+        var hasUpperCase = /[A-Z]/.test(password1);
+        var hasLowerCase = /[a-z]/.test(password1);
+        var hasDigit = /\d/.test(password1);
+
+        if (!isLengthValid || !hasUpperCase || !hasLowerCase || !hasDigit) {
+            alertDiv.removeClass('alert-success').addClass('alert-danger');
+            alertDiv.html('<strong>Password criteria:</strong><br>' +
+                          '- Minimum 8 characters<br>' +
+                          '- At least one uppercase letter<br>' +
+                          '- At least one lowercase letter<br>' +
+                          '- At least one digit');
+        } else {
+            alertDiv.removeClass('alert-danger').addClass('alert-success');
+            alertDiv.text('Password meets the criteria!');
+        }
+    });
+});
+</script>
+{% endblock content %}

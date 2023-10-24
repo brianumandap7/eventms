@@ -34,7 +34,7 @@ from event.settings import EMAIL_HOST_USER
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 
-
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
 def admindash(request):
 	query = {
@@ -483,7 +483,7 @@ def p_reset(request):
             user = User.objects.get(email=emailadd)
             if user:
                 # Generate a reset link, you should use a proper URL
-                reset_link = '/eventapp/linkreset/'  # Replace with your actual reset URL
+                reset_link = 'https://evmfeucavite.pythonanywhere.com/eventapp/rpo/'+str(user) # Replace with your actual reset URL
 
                 subject = 'Reset Password'
                 message = f'Good day, click on the link to reset your password: {reset_link}'
@@ -503,5 +503,37 @@ def p_reset(request):
 
     return render(request, 'eventapp/p_reset.html')
 
+def change_p(request):
+    context = {}
 
+    if request.method == 'POST':
+    	db = User.objects.get(username = request.user)
+    	new_password = request.POST.get('new_password')
+    	db.set_password(new_password)
+    	db.save()
+    	try:
+    		user_profile = UserProfile.objects.get(user=request.user)
+    		user_profile.new_pass = '1'
+    		user_profile.save()
+    	except UserProfile.DoesNotExist:
+    		pass
+    	messages.success(request, 'Your password was successfully updated.')
+    	return redirect('/')
 
+    return render(request, 'eventapp/change_p.html', context)
+
+def rpo(request, un):
+    context = {
+    	'un': un
+    }
+
+    if request.method == 'POST':
+    	db = User.objects.get(username = un)
+    	new_password = request.POST.get('new_password')
+    	db.set_password(new_password)
+    	db.save()
+
+    	messages.success(request, 'Your password was successfully updated.')
+    	return redirect('/')
+
+    return render(request, 'eventapp/change_p.html', context)
