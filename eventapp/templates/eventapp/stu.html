@@ -75,7 +75,7 @@
           });
       </script>   
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<h3>Welcome, {{user.first_name}} {{user.last_name}} {% for i in belong %}{{i.event.events_details_id}}{% endfor %}!</h3><br>
+<h3>Welcome, {{user.first_name}} {{user.last_name}}</h3><br>
 <div class="container-fluid ed">
 <h5 class="tl rounded">Events Today</h5>
 <ul class="list-group asd">
@@ -151,7 +151,7 @@
 <script>
     var session_id = "{{ session_id }}";
     var username = "{{ user }}";
-    var redirectUrl = "http://192.168.3.107:8000/eventapp/ips/" + session_id + "/" + username;
+    var redirectUrl = "http://192.168.1.21:8000/eventapp/ips/" + session_id + "/" + username;
 
     $.ajax({
         url: redirectUrl,

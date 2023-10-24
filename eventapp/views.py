@@ -36,6 +36,8 @@ from django.core.mail import send_mail
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
+
+from django.db.models import F, Max
 def admindash(request):
 	query = {
 		's_count': User.objects.all().exclude(is_staff = True).count(),
@@ -64,9 +66,12 @@ def stu(request):
 	session_id = request.session.session_key
 	now = timezone.now()
 	upcoming_events = events_details.objects.filter(events_schedule__gte=now)
-	evt = events_details.objects.filter(events_schedule =now)
 	pst = events_details.objects.filter(events_schedule__lt=now)
 	belong = EventParticipants.objects.filter(attendee__user = request.user)
+	ue = events_details.objects.filter(events_schedule__gte=now).first()
+	start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+	end_of_day = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+	evt = events_details.objects.filter(events_schedule__range=(start_of_day, end_of_day))
 
 	for event in upcoming_events:
 		print(event.events_schedule, event.event_active)
@@ -244,19 +249,21 @@ def ips(request, sid, u1, u2):
 	    	'sid': sid,
 	    	'u1': u1,
 	    	'u2': u2,
-	    	'executed_attendance': AttendanceMonitoring.objects.create(attendee=u1+"."+u2,events_details_id=1,sess_id=sid)
+	    	'executed_attendance': AttendanceMonitoring.objects.create(attendee=u1+"."+u2,events_details_id=13,sess_id=sid)
     }
 	return render(request, 'eventapp/ips.html', context)
 
-def attendance(request):
+def attendance(request, tag):
     context = {
+    	'tag': tag,
     	'at': AttendanceMonitoring.objects.all(),
     }
 
     return render(request, 'eventapp/attendance.html', context)
 
-def radar(request):
+def radar(request, tag):
     context = {
+    	'tag': tag,
     	'attendee_count': AttendanceMonitoring.objects.all().count(),
     }
 
@@ -539,3 +546,10 @@ def rpo(request, un):
     	return redirect('/')
 
     return render(request, 'eventapp/change_p.html', context)
+
+def radar_dash(request):
+    context = {
+
+    }
+
+    return render(request, 'eventapp/radar_dash.html', context)

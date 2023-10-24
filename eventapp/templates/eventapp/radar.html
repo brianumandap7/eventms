@@ -92,10 +92,10 @@
 </head>
 <body>
     <div class="event-info">
-        <div class="event-name">Sample Event Name</div>
+        <div class="event-name">Event ID: {{tag}}</div>
         <div class="attendee-count">Number of Attendees: {{ attendee_count }}</div>
 
-        <a href="javascript:void(0);" class="va" onclick="openPopup('/eventapp/attendance/', 'View Attendees', 700, 600);">View Attendees</a>
+        <a href="javascript:void(0);" class="va" onclick="openPopup('/eventapp/attendance/{{tag}}', 'View Attendees', 700, 600);">View Attendees</a>
 
         <script>
             function openPopup(url, title, width, height) {

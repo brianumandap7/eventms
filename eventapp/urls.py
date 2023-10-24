@@ -35,11 +35,11 @@ urlpatterns = [
 
     path('deact/<int:tag>/<str:un>', staff_member_required(views.deact), name='deact'),
 
-    path('ips/<str:sid>/<str:u1>.<str:u2>', views.ips, name='ips'),
+    path('ips/<str:sid>/<str:u1>.<str:u2>/', views.ips, name='ips'),
     
-    path('attendance/', views.attendance, name='attendance'),
+    path('attendance/<int:tag>', views.attendance, name='attendance'),
 
-    path('radar/', views.radar, name='radar'),
+    path('radar/<int:tag>', views.radar, name='radar'),
 
     path('cw/', views.cw, name='cw'),
 
@@ -69,6 +69,8 @@ urlpatterns = [
     path('change_p/', views.change_p, name='change_p'),
 
     path('rpo/<str:un>', views.rpo, name='rpo'),
+
+    path('radar_dash/', views.radar_dash, name='radar_dash'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
