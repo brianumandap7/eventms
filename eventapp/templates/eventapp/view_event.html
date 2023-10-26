@@ -42,7 +42,13 @@
         margin-top: 33px;
         margin-left: 20px;
     }
+    .ired {
+        color: red;
+    }
 
+    .igreen {
+        color: green;
+    }
 </style>
 <div class="container-fluid">
     {% if messages %}
@@ -65,7 +71,7 @@
                 <th>Event Name</th>
                 <th>Event Description</th>
                 <th>Event Schedule</th>
-                <th>Event IPS URL</th>
+                <th>IPS Status</th>
                 <th>Requestor</th>
                 <th>Actions</th>
             </tr>
@@ -87,7 +93,11 @@
                         <small>{{items.events_schedule}}</small>
                     </td>
                     <td>
-                        <small>{{items.ips_url}}</small>
+                        {% if items.ips_online == 'offline' %}
+                        <small class="ired">{{items.ips_online}}</small>
+                        {% elif items.ips_online == 'online' %}
+                        <small class="igreen">{{items.ips_online}}</small>
+                        {% endif %}
                     </td>
                     <td>
                         {{items.events_requestor}}

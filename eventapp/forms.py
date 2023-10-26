@@ -31,11 +31,11 @@ class EventsDetailsEditForm(forms.ModelForm):
     
     class Meta:
         model = events_details
-        fields = ['events_name', 'events_details', 'events_schedule', 'ips_url']
+        fields = ['events_name', 'events_details', 'events_schedule', 'ips_online']
         widgets = {
             'events_name': forms.TextInput(attrs={'class': 'form-control'}),
             'events_details': forms.TextInput(attrs={'class': 'form-control'}),
-            'ips_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'ips_online': forms.Select(attrs={'class': 'form-control'}),
             'events_schedule': forms.DateTimeInput(attrs={'class': 'form-control datetime-input'}),
         }
 

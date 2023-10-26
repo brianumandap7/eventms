@@ -13,9 +13,19 @@ class events_details(models.Model):
     events_details = models.CharField(max_length=250, blank=True, null=True)
     events_schedule = models.DateTimeField()
     events_requestor = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
     ips_url = models.CharField(max_length=250, blank=True, null=True)
     event_active = models.IntegerField(blank=True, null=True, default=1)
     added_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    # Modify the ips_url field to use choices
+    IPS_URL_CHOICES = [
+        ('online', 'Online'),
+        ('offline', 'Offline'),
+    ]
+    
+    ips_online = models.CharField(max_length=7, choices=IPS_URL_CHOICES, default='offline')
 
     history = HistoricalRecords()
 

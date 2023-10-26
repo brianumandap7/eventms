@@ -103,7 +103,13 @@
                             <div class="alert alert-success">You are invited in this event</div>
                         {% endif %}
                     {% endfor %}</strong></p>
-                <strong><a href="http://192.168.1.11:8000/eventapp/ips/{{session_id}}/{{user}}" target="__blank" class="btn btn-success btn-sm">IPS is Online!</a></strong>
+
+                {% if event.ips_online == 'online' %}
+                <strong><a href="http://192.168.1.11:8000/eventapp/ips/{{session_id}}/{{user}}/{{event.events_details_id}}" target="__blank" class="btn btn-success btn-sm">IPS is Online!</a></strong>
+                {% else %}
+
+                <strong><button class="btn btn-danger btn-sm" disabled>IPS is Offline!</button></strong>
+                {% endif %}
                 <span class="hidden-content">IPS is live access this to log your attendance.</span>
                 <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
             </div>
@@ -118,7 +124,7 @@
     {% endfor %}
 </ul>
 
-<h5 class="tl rounded">Upcoming Events {{session_id}}</h5>
+<h5 class="tl rounded">Upcoming Events</h5>
 <ul class="list-group asd">
     {% for event in upcoming_events %}
         <li class="list-group-item">
@@ -132,7 +138,7 @@
                             <div class="alert alert-success">You are invited in this event</div>
                         {% endif %}
                     {% endfor %}</strong></p>
-                <a href="{{ event.ips_url }}" class="btn btn-custom1 btn-sm">More Info</a>
+                <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
             </div>
         </li>
         <br>

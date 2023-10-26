@@ -35,7 +35,7 @@ urlpatterns = [
 
     path('deact/<int:tag>/<str:un>', staff_member_required(views.deact), name='deact'),
 
-    path('ips/<str:sid>/<str:u1>.<str:u2>/', views.ips, name='ips'),
+    path('ips/<str:sid>/<str:u1>.<str:u2>/<str:tag>', views.ips, name='ips'),
     
     path('attendance/<int:tag>', views.attendance, name='attendance'),
 

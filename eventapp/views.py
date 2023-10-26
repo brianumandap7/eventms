@@ -243,13 +243,13 @@ def activate(request, tag, un):
 
     return render(request, 'eventapp/activate.html', context)
 
-def ips(request, sid, u1, u2):
+def ips(request, sid, u1, u2, tag):
     # Check if a record with the same attendee and events_details_id already exists
-    existing_record = AttendanceMonitoring.objects.filter(attendee=u1 + "." + u2, events_details_id='13', sess_id=sid).first()
+    existing_record = AttendanceMonitoring.objects.filter(attendee=u1 + "." + u2, events_details_id=tag, sess_id=sid).first()
 
     if not existing_record:
         # If no record with the same values exists, create a new record
-        new_record = AttendanceMonitoring.objects.create(attendee=u1 + "." + u2, events_details_id='13', sess_id=sid)
+        new_record = AttendanceMonitoring.objects.create(attendee=u1 + "." + u2, events_details_id=tag, sess_id=sid)
     else:
         # If a record already exists, you can handle this case as needed
         # For example, you can update the existing record or return an error message
@@ -260,6 +260,8 @@ def ips(request, sid, u1, u2):
         'sid': sid,
         'u1': u1,
         'u2': u2,
+        'tag': tag,
+        'mya': AttendanceMonitoring.objects.filter(Q(attendee = u1+"."+u2)&Q(events_details_id = tag))
     }
 
     return render(request, 'eventapp/ips.html', context)
@@ -267,7 +269,7 @@ def ips(request, sid, u1, u2):
 def attendance(request, tag):
     context = {
     	'tag': tag,
-    	'at': AttendanceMonitoring.objects.all(),
+    	'at': AttendanceMonitoring.objects.filter(events_details_id = tag),
     }
 
     return render(request, 'eventapp/attendance.html', context)
@@ -275,7 +277,7 @@ def attendance(request, tag):
 def radar(request, tag):
     context = {
     	'tag': tag,
-    	'attendee_count': AttendanceMonitoring.objects.all().count(),
+    	'attendee_count': AttendanceMonitoring.objects.filter(events_details_id = tag).count(),
     }
 
     return render(request, 'eventapp/radar.html', context)
