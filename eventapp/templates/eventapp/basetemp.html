@@ -97,7 +97,9 @@
             </svg>Manage Users</a>
         
         </li>
+        {% endif %}
 
+        {% if request.user.is_staff %}
         <li class="nav-item"><a class="nav-link" href="/eventapp/view_event">
             <svg class="nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
@@ -111,7 +113,9 @@
             </svg>Events Calendar</a>
         
         </li>
+        {% endif %}
 
+        {% if request.user.is_superuser %}
         <li class="nav-title">Reports Generation</li>
 
         <li class="nav-item"><a class="nav-link" href="/eventapp/filter_user">
@@ -125,13 +129,6 @@
             <svg class="nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
             </svg>Events Reports</a>
-        
-        </li>
-        {% else %}
-        <li class="nav-item"><a class="nav-link" href="#">
-            <svg class="nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
-            </svg>Events</a>
         
         </li>
 

@@ -101,16 +101,17 @@
                 <p><strong>{% for event_participant in belong %}
                         {% if event_participant.event.events_details_id == event.events_details_id %}
                             <div class="alert alert-success">You are invited in this event</div>
+                            {% if event.ips_online == 'online' %}
+                            <strong><a href="http://192.168.1.11:8000/eventapp/ips/{{session_id}}/{{user}}/{{event.events_details_id}}" target="__blank" class="btn btn-success btn-sm">IPS is Online!</a></strong>
+                            {% else %}
+
+                            <strong><button class="btn btn-danger btn-sm" disabled>IPS is Offline!</button></strong>
+                            {% endif %}
+                            <span class="hidden-content">IPS is live access this to log your attendance.</span>
                         {% endif %}
                     {% endfor %}</strong></p>
 
-                {% if event.ips_online == 'online' %}
-                <strong><a href="http://192.168.1.11:8000/eventapp/ips/{{session_id}}/{{user}}/{{event.events_details_id}}" target="__blank" class="btn btn-success btn-sm">IPS is Online!</a></strong>
-                {% else %}
-
-                <strong><button class="btn btn-danger btn-sm" disabled>IPS is Offline!</button></strong>
-                {% endif %}
-                <span class="hidden-content">IPS is live access this to log your attendance.</span>
+                
                 <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
             </div>
         </li>
