@@ -1,0 +1,11 @@
+redirect route
+
+<script>
+    var session_id = "{{ session_id }}";
+    var username = "{{user}}"
+    var redirectUrl = "http://192.168.1.11:8000/eventapp/ips/" + session_id+"/"+username;
+
+    setTimeout(function() {
+        window.location.href = redirectUrl;
+    }, 5000); // 5000 milliseconds (5 seconds)
+</script>

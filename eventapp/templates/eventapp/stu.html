@@ -39,6 +39,18 @@
     .ed {
         margin: auto;
     }
+
+    .hidden-content {
+    display: none;
+  }
+
+  .show-on-hover:hover .hidden-content {
+    display: block;
+  }
+
+  .show-on-hover:hover .btn-success {
+    display: none;
+  }
 </style>
 <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -91,6 +103,8 @@
                             <div class="alert alert-success">You are invited in this event</div>
                         {% endif %}
                     {% endfor %}</strong></p>
+                <strong><a href="http://192.168.1.11:8000/eventapp/ips/{{session_id}}/{{user}}" target="__blank" class="btn btn-success btn-sm">IPS is Online!</a></strong>
+                <span class="hidden-content">IPS is live access this to log your attendance.</span>
                 <a href="{{ event.ips_url }}" class="btn btn-custom btn-sm">More Info</a>
             </div>
         </li>
@@ -104,7 +118,7 @@
     {% endfor %}
 </ul>
 
-<h5 class="tl rounded">Upcoming Events</h5>
+<h5 class="tl rounded">Upcoming Events {{session_id}}</h5>
 <ul class="list-group asd">
     {% for event in upcoming_events %}
         <li class="list-group-item">
@@ -148,26 +162,7 @@
 </div>
 
 
-<script>
-    var session_id = "{{ session_id }}";
-    var username = "{{ user }}";
-    var redirectUrl = "http://192.168.1.21:8000/eventapp/ips/" + session_id + "/" + username;
 
-    $.ajax({
-        url: redirectUrl,
-        type: 'HEAD',
-        success: function () {
-            // The URL is available, so proceed with the redirect after 5 seconds
-            setTimeout(function() {
-                window.location.href = redirectUrl;
-            }, 5000);
-        },
-        error: function () {
-            // The URL is not available, handle it as needed
-            console.log("URL is not available");
-        }
-    });
-</script>
 {% empty %}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">

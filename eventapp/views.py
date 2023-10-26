@@ -244,14 +244,25 @@ def activate(request, tag, un):
     return render(request, 'eventapp/activate.html', context)
 
 def ips(request, sid, u1, u2):
+    # Check if a record with the same attendee and events_details_id already exists
+    existing_record = AttendanceMonitoring.objects.filter(attendee=u1 + "." + u2, events_details_id='13', sess_id=sid).first()
 
-	context = {
-	    	'sid': sid,
-	    	'u1': u1,
-	    	'u2': u2,
-	    	'executed_attendance': AttendanceMonitoring.objects.create(attendee=u1+"."+u2,events_details_id='13',sess_id=sid)
+    if not existing_record:
+        # If no record with the same values exists, create a new record
+        new_record = AttendanceMonitoring.objects.create(attendee=u1 + "." + u2, events_details_id='13', sess_id=sid)
+    else:
+        # If a record already exists, you can handle this case as needed
+        # For example, you can update the existing record or return an error message
+        # Here, we'll just print a message for demonstration purposes
+        print("Record already exists for attendee and events_details_id")
+
+    context = {
+        'sid': sid,
+        'u1': u1,
+        'u2': u2,
     }
-	return render(request, 'eventapp/ips.html', context)
+
+    return render(request, 'eventapp/ips.html', context)
 
 def attendance(request, tag):
     context = {
