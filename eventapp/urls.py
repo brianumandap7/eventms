@@ -71,6 +71,12 @@ urlpatterns = [
     path('rpo/<str:un>', views.rpo, name='rpo'),
 
     path('radar_dash/', views.radar_dash, name='radar_dash'),
+
+    path('ecerts/', login_required(views.ecerts), name='ecerts'),
+
+    path('ecerts1/<int:tag>', login_required(views.ecerts1), name='ecerts1'),
+
+    path('approve_event', staff_member_required(views.approve_event), name='approve_event'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

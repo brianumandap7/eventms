@@ -1,0 +1,42 @@
+{% extends "eventapp/basetemp.html" %}
+
+{% block content %}
+
+<style>
+  .custom-thumbnail {
+    background-color: #f5f5f5; /* Background color of the thumbnail */
+    padding: 15px; /* Padding inside the thumbnail */
+    border-radius: 5px; /* Rounded corners for the thumbnail */
+  }
+
+  .ti {
+    width: 100%; /* Adjust the width as needed */
+  }
+
+  .btn-custom, .btn-custom:hover {
+        background-color: #092D13;
+        color: white;
+    }
+</style>
+
+<div class="container">
+  <div class="row">
+    {% for items in mc %}
+    <div class="col-sm-4">
+      <div class="custom-thumbnail">
+        <img src="https://scontent.fmnl33-1.fna.fbcdn.net/v/t39.30808-6/328984377_1532951440545626_2637214371547217674_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGYiTD0c5cWmySqHDlhEhKdwcos4j9CmdLByiziP0KZ0iKVvRN5nHmufNrtCH35IR08sMWbGIso_PTPnP4hbuAe&_nc_ohc=VOFsXWjW0jgAX8EP4yA&_nc_zt=23&_nc_ht=scontent.fmnl33-1.fna&oh=00_AfDQewvMv3PF3IIaOwdrtgSYnO7nVew-OtvFeIXb7ml05Q&oe=654D1688"
+             alt="Thumbnail 1" class="ti">
+        <div class="caption">
+        <center>
+          <h3>Event id : {{items.event_id}}</h3>
+          <p>{{items.date_performed}}</p>
+
+          <a href="/eventapp/ecerts1/{{items.event_id}}" target = "__blank" class="btn btn-custom">View My eCert</a>
+      	</center>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

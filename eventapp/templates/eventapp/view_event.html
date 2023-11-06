@@ -68,6 +68,7 @@
     <table class="table" id="event-table">
         <thead class="thead">
             <tr>
+                <th>ID</th>
                 <th>Event Name</th>
                 <th>Event Description</th>
                 <th>Event Schedule</th>
@@ -79,6 +80,7 @@
         <tbody>
             {% for items in ed %}
                 <tr>
+                    <td>{{items.events_details_id}}</td>
                     <td>
                         {{items.events_name}}
                         <br>

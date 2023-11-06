@@ -55,6 +55,11 @@
             background-color: #092D13;
             color: white;
         }
+
+        .btn-custom, .btn-custom:hover {
+            background-color: #092D13;
+            color: white;
+        }
     </style>
     <title>Indoor Processing System</title>
 </head>
@@ -66,9 +71,8 @@
         <h1>You are being assessed by IPS (Indoor Processing System)</h1>
     </div>
 
-    <div class="container content text-center">
+    <div class="container content">
         <p class="animated-text">Congratulations! Your Attendance has been logged!</p>
-        <br>
         <table class="table">
             <thead>
                 <tr>
@@ -85,8 +89,24 @@
                     <td>{{items.time_in}}</td>
                 </tr>
                 {% endfor %}
+
+                <tr>
+                    <td>
+                        <b>Feedback</b>
+                    </td>
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <textarea id="fb" name="fb" rows="10" cols="100" placeholder="Please answer this form after the event to claim your certificate. Take note that the time you answered the feedback form will be recorded, so make sure to provide your feedback only after the event." required></textarea>
+
+                            <input type="submit" name="submit" value="Submit Feedback" class="btn btn-custom">
+                        </form>
+                    </td>
+                </tr>
             </tbody>
-        </table>
+        </table>        
+        
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

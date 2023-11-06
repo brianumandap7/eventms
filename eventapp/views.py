@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm, DateRangeForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
@@ -112,10 +112,17 @@ def create_event(request):
 
 def view_event(request):
     context = {
-    	'ed': events_details.objects.all().order_by('events_name')
+    	'ed': events_details.objects.all().order_by('-events_details_id')
     }
 
     return render(request, 'eventapp/view_event.html', context)
+
+def approve_event(request):
+    context = {
+    	
+    }
+
+    return render(request, 'eventapp/approve_event.html', context)
 
 def event_det(request, tag):
     event = events_details.objects.get(events_details_id=tag)
@@ -264,7 +271,33 @@ def ips(request, sid, u1, u2, tag):
         'mya': AttendanceMonitoring.objects.filter(Q(attendee = u1+"."+u2)&Q(events_details_id = tag))
     }
 
+    if request.method == "POST":
+    	db = ecert()
+    	db.event_id = tag
+    	db.attendee = request.user
+    	db.feedback = request.POST.get('fb')
+    	db.save()
+
+    	return redirect('/eventapp/stu')
+
+
     return render(request, 'eventapp/ips.html', context)
+
+def ecerts(request):
+    context = {
+    	'mc': ecert.objects.filter(attendee = request.user),
+    	'ev': events_details.objects.all(),
+    }
+
+    return render(request, 'eventapp/ecerts.html', context)
+
+def ecerts1(request, tag):
+    context = {
+    	'tag': tag,
+    	'ev': events_details.objects.filter(events_details_id = tag),
+    }
+
+    return render(request, 'eventapp/ecerts1.html', context)
 
 def attendance(request, tag):
     context = {

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Printable Certificate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .certificate {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .content {
+            margin-top: 30px;
+            height: 300px;
+        }
+        
+        .recipient {
+            font-size: 18px;
+        }
+        
+        .event {
+            font-size: 16px;
+        }
+        
+        .date {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        
+        .watermark {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.2); /* Adjust the color and opacity of the watermark */
+            pointer-events: none; /* Prevent the watermark from interfering with interaction */
+        }
+        
+        @media print {
+            body {
+                text-align: left;
+            }
+            
+            .certificate {
+                width: 100%;
+                border: none;
+            }
+            
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="header">Certificate of Completion</div>
+            <div class="content">
+                <div class="event">This is to proudly certify that</div>
+                <div class="recipient" style="font-weight: bold;"><h1>{{user.first_name}} {{user.last_name}}</h1></div>
+                <div class="event">has demonstrated exceptional dedication and completed the <b>{% for items in ev %}{{items.events_name}}{% endfor %} Event hosted at FEU Cavite.</b></div>
+                <div class="date">This certificate is awarded on {% for items in ev %}{{ items.events_schedule|date:"Y-m-d" }}{% endfor %}</div>
+            </div>
+    <div class="watermark">FEU Cavite - EVM</div>
+    </div>
+
+
+    <button class="print-button" onclick="window.print()">Print Certificate</button>
+</body>
+</html>
