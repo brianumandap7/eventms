@@ -72,7 +72,7 @@
     </div>
 
     <div class="container content">
-        <p class="animated-text">Congratulations! Your Attendance has been logged!</p>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -83,6 +83,15 @@
             </thead>
 
             <tbody>
+                <tr>
+                    <td>
+                        
+                    </td>
+
+                    <td>
+                        <center><p class="animated-text"><b>Congratulations! Your Attendance has been logged!</b></p></center>
+                    </td>
+                </tr>
                 {% for items in mya %}
                 <tr>
                     <td>{{items.attendee}}</td>
@@ -95,12 +104,10 @@
                         <b>Feedback</b>
                     </td>
                     <td>
-                        <form method="POST">
-                            {% csrf_token %}
-                            <textarea id="fb" name="fb" rows="10" cols="100" placeholder="Please answer this form after the event to claim your certificate. Take note that the time you answered the feedback form will be recorded, so make sure to provide your feedback only after the event." required></textarea>
+                        <a href="javascript:void(0);" onclick="window.open('https://evmfeucavite.pythonanywhere.com/eventapp/fform/{{tag}}', 'Popup', 'width=600,height=400');" class="btn btn-custom">Answer Feedback Form</a>
+                        <br>
 
-                            <input type="submit" name="submit" value="Submit Feedback" class="btn btn-custom">
-                        </form>
+                        <p><strong>Please complete the form only if you receive an official notification from the organizers. Failure to adhere to these instructions may result in the inability to claim your eCertificate.</strong></p>
                     </td>
                 </tr>
             </tbody>

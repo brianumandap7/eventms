@@ -76,7 +76,11 @@ urlpatterns = [
 
     path('ecerts1/<int:tag>', login_required(views.ecerts1), name='ecerts1'),
 
-    path('approve_event', staff_member_required(views.approve_event), name='approve_event'),
+    path('approve_event/', staff_member_required(views.approve_event), name='approve_event'),
+
+    path('apr/<int:tag>', staff_member_required(views.apr), name='apr'),
+
+    path('fform/<int:tag>', login_required(views.fform), name='fform'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

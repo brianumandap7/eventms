@@ -28,7 +28,15 @@
              alt="Thumbnail 1" class="ti">
         <div class="caption">
         <center>
-          <h3>Event id : {{items.event_id}}</h3>
+          <h5>Event id : {{items.event_id}}
+          	<br>
+          {% for i in ev %}
+          {% if i.events_details_id|stringformat:"d" == items.event_id %}
+          <small><strong>{{i.events_name}}</strong></small>
+          {% endif %}
+          
+          {% endfor %}
+      	  </h5>
           <p>{{items.date_performed}}</p>
 
           <a href="/eventapp/ecerts1/{{items.event_id}}" target = "__blank" class="btn btn-custom">View My eCert</a>
@@ -36,6 +44,11 @@
         </div>
       </div>
     </div>
+
+    {% empty %}
+
+    <img src="https://thumbs.dreamstime.com/z/page-not-found-empty-states-illustration-concept-flat-isolated-white-background-250134533.jpg" alt="Empty Page">
+    
     {% endfor %}
   </div>
 </div>

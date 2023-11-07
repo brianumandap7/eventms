@@ -112,14 +112,14 @@ def create_event(request):
 
 def view_event(request):
     context = {
-    	'ed': events_details.objects.all().order_by('-events_details_id')
+    	'ed': events_details.objects.filter(apr = 1).order_by('-events_details_id')
     }
 
     return render(request, 'eventapp/view_event.html', context)
 
 def approve_event(request):
     context = {
-    	
+    	'ap': events_details.objects.filter(apr = 0),
     }
 
     return render(request, 'eventapp/approve_event.html', context)
@@ -420,7 +420,7 @@ def set_default_password(request, user_id, deta):
 from django.http import JsonResponse
 
 def calendar(request):
-    events = events_details.objects.all()
+    events = events_details.objects.filter(apr = 1)
     event_data = []
     for event in events:
         if event.events_schedule:
@@ -599,3 +599,37 @@ def radar_dash(request):
     }
 
     return render(request, 'eventapp/radar_dash.html', context)
+
+def apr(request, tag):
+    context = {
+    	'tag': tag,
+    	'exec': events_details.objects.filter(events_details_id = tag).update(apr = 1),
+    }
+
+    return render(request, 'eventapp/apr.html', context)
+
+def fform(request, tag):
+    context = {
+        'tag': tag,
+    }
+
+    if request.method == "POST":
+        event_id = tag
+        attendee = request.user
+        feedback = request.POST.get('fb')
+        
+        # Check if a record with the same event_id and attendee already exists
+        existing_record = ecert.objects.filter(event_id=event_id, attendee=attendee).first()
+        
+        if existing_record:
+            # If a record already exists, you can update the feedback or take other actions as needed
+            existing_record.feedback = feedback
+            existing_record.save()
+        else:
+            # If no record exists, create a new one
+            db = ecert(event_id=event_id, attendee=attendee, feedback=feedback)
+            db.save()
+
+        return redirect('/eventapp/cw')
+
+    return render(request, 'eventapp/fform.html', context)
