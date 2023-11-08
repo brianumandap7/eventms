@@ -66,13 +66,13 @@ def admindash(request):
 def stu(request):
 	session_id = request.session.session_key
 	now = timezone.now()
-	upcoming_events = events_details.objects.filter(events_schedule__gte=now)
-	pst = events_details.objects.filter(events_schedule__lt=now)
+	upcoming_events = events_details.objects.filter(Q(events_schedule__gte=now)&Q(apr = 1))
+	pst = events_details.objects.filter(Q(events_schedule__lt=now)&Q(apr = 1))
 	belong = EventParticipants.objects.filter(attendee__user = request.user)
 	ue = events_details.objects.filter(events_schedule__gte=now).first()
 	start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
 	end_of_day = now.replace(hour=23, minute=59, second=59, microsecond=999999)
-	evt = events_details.objects.filter(events_schedule__range=(start_of_day, end_of_day))
+	evt = events_details.objects.filter(Q(events_schedule__range=(start_of_day, end_of_day))&Q(apr = 1))
 
 	for event in upcoming_events:
 		print(event.events_schedule, event.event_active)
