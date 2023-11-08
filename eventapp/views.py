@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm, DateRangeForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert, ipsurl
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
@@ -43,6 +43,7 @@ def admindash(request):
 		's_count': User.objects.all().exclude(is_staff = True).count(),
 		't_count': User.objects.all().exclude(is_staff = False).count(),
 		'e_count': events_details.objects.all().count(),
+		'ipsurl': ipsurl.objects.all(),
 	}
 
 	if request.method == 'POST':
@@ -83,6 +84,7 @@ def stu(request):
     	'pst': pst,
     	'up': UserProfile.objects.filter(user = request.user),
     	'belong': belong,
+    	'ipsurl': ipsurl.objects.all(),
 	}
 	return render(request, 'eventapp/stu.html', query)
 

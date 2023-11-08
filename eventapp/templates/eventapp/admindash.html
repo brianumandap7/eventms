@@ -18,7 +18,7 @@
 
 {% if request.user.username == "ips.server" %}
   <script>
-    window.location.href = 'http://127.0.0.1:8000/eventapp/radar_dash/';
+    window.location.href = 'http://{% for items in ipsurl %}{{items.ipsurl}}{% endfor %}:8000/eventapp/radar_dash/';
   </script>
 {% endif %}
 

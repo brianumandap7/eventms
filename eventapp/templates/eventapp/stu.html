@@ -102,7 +102,7 @@
                         {% if event_participant.event.events_details_id == event.events_details_id %}
                             <div class="alert alert-success">You are invited in this event</div>
                             {% if event.ips_online == 'online' %}
-                            <strong><a href="http://127.0.0.1:8000/eventapp/ips/{{session_id}}/{{user}}/{{event.events_details_id}}" target="__blank" class="btn btn-success btn-sm">IPS is Online!</a></strong>
+                            <strong><a href="http://{% for items in ipsurl %}{{items.ipsurl}}{% endfor %}:8000/eventapp/ips/{{session_id}}/{{user}}/{{event.events_details_id}}" target="__blank" class="btn btn-success btn-sm">IPS is Online!</a></strong>
                             {% else %}
 
                             <strong><button class="btn btn-danger btn-sm" disabled>IPS is Offline!</button></strong>
