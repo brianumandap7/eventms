@@ -88,14 +88,44 @@
             background-color: #FEBE10;
             color: black;
         }
+
+        .mod {
+            background-color: #FEBE10;
+            color: black;
+        }
+        .co {
+            margin-top: 10px;
+        }
+
+        .ana {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="event-info">
         <div class="event-name">Event ID: {{tag}}</div>
         <div class="attendee-count">Number of Attendees: {{ attendee_count }}</div>
-
+        <br>
         <a href="javascript:void(0);" class="va" onclick="openPopup('/eventapp/attendance/{{tag}}', 'View Attendees', 700, 600);">View Attendees</a>
+        <br>
+        <div class="co">
+
+        <!-- enable this later during git add -->
+        <a href="{% for items in ipsurl %}{{items.ipsurl}}{% endfor %}:8000/eventapp/q_form/{{tag}}" class="mod va" target="_blank">Modify Feedback Form</a>
+
+            <!-- <a href="/eventapp/q_form/{{tag}}" class="mod va" target="_blank">Modify Feedback Form</a> -->
+            <br>
+
+            
+        </div>
+
+        <div class="ana">
+            <a href="{% for items in ipsurl %}{{items.ipsurl}}{% endfor %}:8000/eventapp/ana/{{tag}}" class="mod va" target="_blank">View Analytics</a>
+
+            <!-- <a href="/eventapp/ana/{{tag}}" class="mod va" target="_blank">View Analytics</a> -->
+            <br>
+        </div>
 
         <script>
             function openPopup(url, title, width, height) {
@@ -134,6 +164,8 @@
             // Call createBlips to create blips based on attendee_count
             createBlips();
         </script>
-    </div>
+    </div>  
+
+    
 </body>
 </html>

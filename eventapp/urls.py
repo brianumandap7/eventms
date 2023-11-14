@@ -81,6 +81,10 @@ urlpatterns = [
     path('apr/<int:tag>', staff_member_required(views.apr), name='apr'),
 
     path('fform/<int:tag>', login_required(views.fform), name='fform'),
+
+    path('q_form/<int:tag>', login_required(views.q_form), name='q_form'),
+
+    path('ana/<int:tag>', login_required(views.ana), name='ana'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

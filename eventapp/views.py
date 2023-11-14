@@ -1,12 +1,13 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm, DateRangeForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert, ipsurl
+from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm, DateRangeForm, QForm
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert, ipsurl, qform
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from tablib import Dataset
+from django.db.models import Avg
 
 from .resources import PersonResource
 
@@ -313,6 +314,7 @@ def radar(request, tag):
     context = {
     	'tag': tag,
     	'attendee_count': AttendanceMonitoring.objects.filter(events_details_id = tag).count(),
+    	'ipsurl': ipsurl.objects.all(),
     }
 
     return render(request, 'eventapp/radar.html', context)
@@ -613,25 +615,71 @@ def apr(request, tag):
 def fform(request, tag):
     context = {
         'tag': tag,
+        'qs': qform.objects.filter(event_id = tag),
+        'ecert': ecert.objects.filter(Q(attendee = request.user)&Q(event_id = tag)).first()
     }
 
     if request.method == "POST":
         event_id = tag
         attendee = request.user
         feedback = request.POST.get('fb')
-        
+        q1_rating = request.POST.get('rating1')
+        q2_rating = request.POST.get('rating2')
+        q3_rating = request.POST.get('rating3')
+        q4_rating = request.POST.get('rating4')
         # Check if a record with the same event_id and attendee already exists
         existing_record = ecert.objects.filter(event_id=event_id, attendee=attendee).first()
         
         if existing_record:
             # If a record already exists, you can update the feedback or take other actions as needed
             existing_record.feedback = feedback
+            existing_record.q1 = q1_rating
+            existing_record.q2 = q2_rating
+            existing_record.q3 = q3_rating
+            existing_record.q4 = q4_rating
             existing_record.save()
         else:
             # If no record exists, create a new one
-            db = ecert(event_id=event_id, attendee=attendee, feedback=feedback)
+            db = ecert(event_id=event_id, attendee=attendee, feedback=feedback, q1 = q1_rating, q2 = q2_rating, q3 = q3_rating, q4 = q4_rating)
             db.save()
 
         return redirect('/eventapp/cw')
 
     return render(request, 'eventapp/fform.html', context)
+
+def q_form(request, tag):
+    if request.method == 'POST':
+        form = QForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.event_id = tag
+            instance.save()
+            return redirect('q_form', tag=tag)
+    else:
+        form = QForm()
+
+    context = {
+        'tag': tag,
+        'form': form,
+        'dis': qform.objects.filter(event_id = tag),
+    }
+
+    return render(request, 'eventapp/qform.html', context)
+
+def ana(request, tag):
+    # Get averages for the specified event_id
+    basis = qform.objects.filter(event_id = tag)[:4]
+    averages = ecert.objects.filter(event_id=tag).aggregate(
+        avg_q1=Avg('q1'),
+        avg_q2=Avg('q2'),
+        avg_q3=Avg('q3'),
+        avg_q4=Avg('q4'),
+    )
+
+    context = {
+        'tag': tag,
+        'averages': averages,
+        'basis': basis,
+    }
+
+    return render(request, 'eventapp/ana.html', context)

@@ -104,6 +104,11 @@ class EventParticipants(models.Model):
 class ecert(models.Model):
     event_id = models.CharField(max_length=255, blank=True, null=True)
     attendee = models.CharField(max_length=255, blank=True, null=True)
+    q1 = models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], default = 1)
+    q2 = models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], default = 1)
+    q3 = models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], default = 1)
+    q4 = models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], default = 1)
+    avg = models.FloatField(blank=True, null=True)
     feedback = models.CharField(max_length=255, blank=True, null=True)
     date_performed = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
@@ -115,3 +120,11 @@ class ipsurl(models.Model):
 
 	def __str__(self):
 		return str(self.ipsurl)
+
+class qform(models.Model):
+	event_id = models.CharField(max_length=255, blank=True, null=True)
+	question = models.CharField(max_length=255, blank=True, null=True)
+	category = models.CharField(max_length=255, blank=True, null=True)
+
+	def __str__(self):
+		return str(self.event_id)+" "+str(self.category)

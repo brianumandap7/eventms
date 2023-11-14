@@ -7,24 +7,119 @@
 
     <!-- Add Bootstrap CSS link -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Add Font Awesome CSS link for star icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
 
 <div class="container mt-5">
+
+    {% if ecert %}
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #dino-container {
+            position: relative;
+        }
+
+        #dino {
+            width: 300px;
+            height: auto;
+            animation: run 1s infinite linear;
+        }
+
+        @keyframes run {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        .alert-custom {
+            background-color: #092D13;
+            color: white;
+        }
+        
+
+    </style>
+
+    <div id="dino-container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-xs-12">
+                <center><img id="dino" src="https://cdn-images-1.medium.com/max/688/1*82D2cg8Gpe9CVISaph6RPg.gif" alt="Running Dinosaur"></center>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-12">
+                <center><img id="dino" src="https://i.gifer.com/NWDU.gif" alt="Running Dinosaur"></center>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-custom">Your feedback has been recorded. Thank you so much!</div>
+
+    {% else %}
+    <!-- this is the feedback form -->
+
+
+    <div class="alert alert-danger">Please answer this form after the event to claim your certificate. Take note that the time you answered the feedback form will be recorded, so make sure to provide your feedback only when instructed.</div>
     <form method="POST">
         {% csrf_token %}
+        {% for items in qs %}
+            <div class="form-group">
+                <label><strong>{{ items.category }}</strong></label>
+                <h5><small>-{{ items.question }}</small></h5>
+
+                <!-- Star rating table -->
+                <table class="rating-table">
+                    <thead>
+                        <tr>
+                            <th> - </th>
+                            <th style="width: 16.666%;">1</th>
+                            <th style="width: 16.666%;">2</th>
+                            <th style="width: 16.666%;">3</th>
+                            <th style="width: 16.666%;">4</th>
+                            <th style="width: 16.666%;">5</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Rating &nbsp;&nbsp;</td>
+                            <td><input type="radio" name="rating{{ items.id }}" value="1"></td>
+                            <td><input type="radio" name="rating{{ items.id }}" value="2"></td>
+                            <td><input type="radio" name="rating{{ items.id }}" value="3"></td>
+                            <td><input type="radio" name="rating{{ items.id }}" value="4"></td>
+                            <td><input type="radio" name="rating{{ items.id }}" value="5"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+
         <div class="form-group">
-            <label for="fb">Feedback:</label>
-            <textarea id="fb" name="fb" class="form-control" rows="10" placeholder="Please answer this form after the event to claim your certificate. Take note that the time you answered the feedback form will be recorded, so make sure to provide your feedback only after the event." required></textarea>
+            <label for="fb"><strong>Feedback:</strong></label>
+            <textarea id="fb" name="fb" class="form-control" rows="10" required></textarea>
         </div>
 
-        <button type="submit" name="submit" class="btn btn-custom">Submit Feedback</button>
+        <button type="submit" name="submit" class="btn btn-success">Submit Feedback</button>
     </form>
+    {% endif %}
+    
 </div>
 
 <!-- Add Bootstrap JS and Popper.js if needed -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+
+<!-- Add Font Awesome JS link for star icons -->
+<script src="https://cdnjs

@@ -2,7 +2,7 @@ from django import forms
 from .models import events_details
 from django.contrib.auth.models import User  # Import your model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import UserProfile, EventParticipants
+from .models import UserProfile, EventParticipants, qform
 
 class EventsDetailsForm(forms.ModelForm):
     
@@ -111,3 +111,12 @@ class DateRangeForm(forms.Form):
     start_date = forms.DateTimeField(label='Start Date', widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control sd'}))
     end_date = forms.DateTimeField(label='End Date', widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control sd'}))
 
+class QForm(forms.ModelForm):
+    class Meta:
+        model = qform
+        exclude = ['event_id']
+
+        widgets = {
+            'question': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),  # You can adjust the 'rows' attribute as needed
+            'category': forms.TextInput(attrs={'class': 'form-control'}),
+        }

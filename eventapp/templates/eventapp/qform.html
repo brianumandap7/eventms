@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QForm</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+	.btn-custom, .btn-custom:hover {
+		background-color: #092D13;
+		color: white;
+	}
+	.btn-custom1, .btn-custom1:hover {
+		background-color: #FFC107;
+	}
+	
+</style>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">QForm for Event ID: {{ tag }}</h2>
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            {{ form.question.label_tag }}
+            <textarea name="{{ form.question.name }}" rows="3" class="form-control" required></textarea>
+            {{ form.category.label_tag }} {{ form.category }}<br>
+            <button type="submit" class="btn btn-custom">Submit</button>
+        </form>
+        <br>
+        <table class="table">
+        	<thead>
+        		<tr>
+        			<th>Category</th>
+        			<th>Question</th>
+        			<th>Actions</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        		{% for items in dis %}
+        		<tr>
+        			<td>{{items.category}}</td>
+        			<td>{{items.question}}</td>
+        			<td><a href="#" class="btn btn-custom1">Remove</td>
+        		</tr>
+        		{% endfor %}
+        	</tbody>
+        </table>
+    </div>
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <!-- Optional: Include Bootstrap form validation script -->
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>
