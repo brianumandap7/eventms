@@ -654,7 +654,6 @@ def q_form(request, tag):
             instance = form.save(commit=False)
             instance.event_id = tag
             instance.save()
-            return redirect('q_form', tag=tag)
     else:
         form = QForm()
 
@@ -683,3 +682,21 @@ def ana(request, tag):
     }
 
     return render(request, 'eventapp/ana.html', context)
+
+def removeq(request, tag, ref):
+    context = {
+    	'tag': tag,
+    	'ref': ref,
+    	'exec': qform.objects.filter(id = tag).delete(),
+    }
+
+    return render(request, 'eventapp/removeq.html', context)
+
+def deta(request, tag):
+    context = {
+    	'tag': tag,
+    	'evt': events_details.objects.filter(events_details_id = tag),
+    	'ep': EventParticipants.objects.filter(event__events_details_id = tag),
+    }
+
+    return render(request, 'eventapp/deta.html', context)

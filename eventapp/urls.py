@@ -85,6 +85,10 @@ urlpatterns = [
     path('q_form/<int:tag>', login_required(views.q_form), name='q_form'),
 
     path('ana/<int:tag>', login_required(views.ana), name='ana'),
+
+    path('removeq/<int:tag>/<int:ref>', login_required(views.removeq), name='removeq'),
+
+    path('deta/<int:tag>', login_required(views.deta), name='deta'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
