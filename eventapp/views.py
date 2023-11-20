@@ -40,11 +40,44 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
 
 from django.db.models import F, Max
 def admindash(request):
+	now = timezone.now()
+	upcoming_events = events_details.objects.filter(Q(events_schedule__gte=now)&Q(apr = 1)).count()
+	active_users_count = User.objects.filter(is_active=True).count()
+	inactive_users_count = User.objects.filter(is_active=False).count()
+	total_users = active_users_count + inactive_users_count
+
+	cane = events_details.objects.filter(apr = 0).count()
+	appr = events_details.objects.filter(apr = 1).count()
+	arch = events_details.objects.filter(Q(event_active = 0)&Q(apr = 1)).count()
+
+	total_app = arch + appr
+	total_events = cane + appr
+
+	cane_percentage = 0
+	appr_percentage = 0
+	active_percentage = 0
+	inactive_percentage = 0
+
+	if total_users > 0:
+		active_percentage = (active_users_count / total_users) * 100
+		inactive_percentage = (inactive_users_count / total_users) * 100
+	if total_events > 0:
+		cane_percentage = (cane / total_events) * 100
+		appr_percentage = (appr / total_events) * 100
+
+	if total_app > 0:
+		arch_percentage = (arch / total_app) * 100
 	query = {
 		's_count': User.objects.all().exclude(is_staff = True).count(),
 		't_count': User.objects.all().exclude(is_staff = False).count(),
 		'e_count': events_details.objects.all().count(),
+		'u_count': upcoming_events,
 		'ipsurl': ipsurl.objects.all(),
+		'active_percentage': active_percentage,
+        'inactive_percentage': inactive_percentage,
+        'cane_percentage': cane_percentage,
+        'appr_percentage': appr_percentage,
+        'arch_percentage': arch_percentage,
 	}
 
 	if request.method == 'POST':
