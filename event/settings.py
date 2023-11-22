@@ -170,6 +170,5 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSP_DEFAULT_SRC = ("'self'",)
 
 
