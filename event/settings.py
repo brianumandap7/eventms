@@ -170,8 +170,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-# Allow stylesheets from the same origin and inline styles (temporary)
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 
 
