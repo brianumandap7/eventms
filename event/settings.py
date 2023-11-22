@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'simple_history',
 
     'login.apps.LoginConfig',
+    'csp',
 ]
 
 MIDDLEWARE = [
