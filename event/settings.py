@@ -58,11 +58,9 @@ INSTALLED_APPS = [
     'simple_history',
 
     'login.apps.LoginConfig',
-    'csp',
 ]
 
 MIDDLEWARE = [
-    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
