@@ -58,9 +58,11 @@ INSTALLED_APPS = [
     'simple_history',
 
     'login.apps.LoginConfig',
+    'csp',
 ]
 
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -160,9 +162,14 @@ SIMPLE_HISTORY_ENFORCE_HISTORY_MODEL_PERMISSIONS = True
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSP_DEFAULT_SRC = ("'self'",)
 
 
