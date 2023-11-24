@@ -78,6 +78,7 @@ def admindash(request):
         'cane_percentage': cane_percentage,
         'appr_percentage': appr_percentage,
         'arch_percentage': arch_percentage,
+        'f_count': ecert.objects.all().count(),
 	}
 
 	if request.method == 'POST':
