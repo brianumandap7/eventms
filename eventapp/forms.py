@@ -98,14 +98,30 @@ class EventParticipantForm(forms.ModelForm):
         self.fields['event'].label = False
         self.fields['event'].initial = event
 
-        # Customize the queryset for the 'attendee' field to exclude existing participants
+        # Customize the queryset for the 'attendee' field to include course in options
         if event:
             existing_participants = EventParticipants.objects.filter(event=event)
             existing_attendees = existing_participants.values_list('attendee_id', flat=True)
-            self.fields['attendee'].queryset = UserProfile.objects.exclude(id__in=existing_attendees)
+            queryset = UserProfile.objects.exclude(id__in=existing_attendees)
+            attendees_with_courses = [
+                (profile.id, f"{profile.course} - {profile.user.username}") 
+                for profile in queryset
+            ]
+            self.fields['attendee'].queryset = queryset
+            self.fields['attendee'].choices = attendees_with_courses
 
         # Add a CSS class to the 'attendee' field
         self.fields['attendee'].widget.attrs['class'] = 'form-control'
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if commit:
+            instance.attendee_id = self.cleaned_data['attendee']  # Save UserProfile ID
+            instance.save()
+        return instance
+
+
+
 
 class DateRangeForm(forms.Form):
     start_date = forms.DateTimeField(label='Start Date', widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control sd'}))

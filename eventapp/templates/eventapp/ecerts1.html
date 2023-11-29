@@ -3,17 +3,26 @@
 <head>
     <title>Printable Certificate</title>
     <style>
+
+        /* Add a class to apply background image for print */
+        
+
         body {
             font-family: Arial, sans-serif;
             text-align: center;
         }
         
         .certificate {
-            width: 800px;
+            width: 1000px;
+            height: 700px;
             margin: 0 auto;
             padding: 20px;
             border: 2px solid #333;
             background-color: #f5f5f5;
+            background-image: url('http://drive.google.com/uc?export=view&id=1JyufSe1RzaJvjoXvrRWyxFBD7ZpH0zEf');
+            /* Additional background properties if needed */
+            background-size: cover;
+            background-repeat: no-repeat;
         }
         
         .header {
@@ -27,6 +36,7 @@
         }
         
         .recipient {
+            margin-top: 330px;
             font-size: 18px;
         }
         
@@ -39,25 +49,63 @@
             font-size: 16px;
         }
         
-        .watermark {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 36px;
-            font-weight: bold;
-            color: rgba(0, 0, 0, 0.2); /* Adjust the color and opacity of the watermark */
-            pointer-events: none; /* Prevent the watermark from interfering with interaction */
-        }
+        
         
         @media print {
+
+            .certificate-with-bg {
+            width: 1000px;
+            height: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #f5f5f5;
+            /* Load your background image */
+            background-image: url('http://drive.google.com/uc?export=view&id=1JyufSe1RzaJvjoXvrRWyxFBD7ZpH0zEf');
+            /* Other background properties if needed */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
             body {
                 text-align: left;
             }
+
+            .header {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .content {
+            margin-top: 30px;
+            height: 300px;
+        }
+        
+        .recipient {
+            margin-top: 335px;
+            font-size: 18px;
+            margin-left: 430px;
+        }
+        
+        .event {
+            font-size: 16px;
+            margin-left: 100px;
+        }
+        
+        .date {
+            margin-top: 20px;
+            font-size: 16px;
+            margin-left: 360px;
+        }
             
+
+            @page {
+                size: landscape;
+            }
             .certificate {
                 width: 100%;
                 border: none;
+                page-break-after: always; /* Optional: Force page break after each certificate */
+                -webkit-print-color-adjust: exact;
             }
             
             .print-button {
@@ -67,18 +115,18 @@
     </style>
 </head>
 <body>
-    <div class="certificate">
-        <div class="header">Certificate of Completion</div>
+    <div class="certificate certificate-with-bg">
+        <div class="header"></div>
             <div class="content">
-                <div class="event">This is to proudly certify that</div>
-                <div class="recipient" style="font-weight: bold;"><h1>{{user.first_name}} {{user.last_name}}</h1></div>
+                
+                <div class="recipient" style="font-weight: bold;"><h3>{{user.first_name}} {{user.last_name}}</h3></div>
                 <div class="event">has demonstrated exceptional dedication and completed the <b>{% for items in ev %}{{items.events_name}}{% endfor %} Event hosted at FEU Cavite.</b></div>
                 <div class="date">This certificate is awarded on {% for items in ev %}{{ items.events_schedule|date:"Y-m-d" }}{% endfor %}</div>
             </div>
-    <div class="watermark">FEU Cavite - EVM</div>
     </div>
 
 
     <button class="print-button" onclick="window.print()">Print Certificate</button>
+
 </body>
 </html>

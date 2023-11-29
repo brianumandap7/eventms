@@ -35,41 +35,10 @@
 </style>
 <div class="container-lg">
 
-  <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="passwordChangeModalLabel">Change Password Required</h5>
-
-                </div>
-                <div class="modal-body">
-                    <!-- Password change form goes here -->
-                    <form method="POST">
-                        {% csrf_token %}
-                        <!-- Include form fields for the new password -->
-                        <!-- For example: -->
-                        <label for="new_password"><strong>New Password:</strong></label>
-                        <input type="password" name="new_password" id="id_password1" class="form-control">
-                        <div id="password-alert" class="alert" role="alert"></div>
-                        <br>
-                        <!-- Add any other required form fields -->
-                        <button type="submit" class="btn btn-custom">Change Password</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-      </div>
+  
       <!-- end of modal pass -->
 
-      <script>
-          $(document).ready(function () {
-              // Check if new_pass is '0' or if UserProfile doesn't exist
-              {% if user.userprofile.new_pass == '0' or not user.userprofile %}
-                  // Show the password change modal
-                  $('#passwordChangeModal').modal('show');
-              {% endif %}
-          });
-      </script>   
+      
           <div class="row">
             <div class="col-sm-6 col-lg-3">
               <div class="card mb-4 text-white bg-primary">
@@ -177,7 +146,7 @@
                   </div>
                 </div>
                 <div class="col mb-sm-2 mb-0">
-                  <div class="text-medium-emphasis">Events Cancelled Rate <br><strong>({{cane_percentage|floatformat:2}}%)</strong></div>
+                  <div class="text-medium-emphasis">Events Unapproved Rate <br><strong>({{cane_percentage|floatformat:2}}%)</strong></div>
                   
                   <div class="progress progress-thin mt-2">
                     <div class="progress-bar bg-info" role="progressbar" style="width: {{cane_percentage}}%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>

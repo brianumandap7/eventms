@@ -157,7 +157,7 @@
                 <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
                 <p><strong>{% for event_participant in belong %}
                         {% if event_participant.event.events_details_id == event.events_details_id %}
-                            <div class="alert alert-success">You are invited in this event</div>
+                            <div class="alert alert-success">You were invited in this event</div>
                         {% endif %}
                     {% endfor %}</strong></p>
                 <a href="/eventapp/deta/{{ event.events_details_id }}" class="btn btn-custom btn-sm">More Info</a>
@@ -169,9 +169,7 @@
 
 
 </div>
-<div class="d-none d-sm-block">
-    This content will only show on small screens.
-</div>
+
 
 
 {% empty %}

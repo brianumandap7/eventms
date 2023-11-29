@@ -85,7 +85,7 @@
                         {{items.events_name}}
                         <br>
                         {% if items.event_active == 0 %}
-                            <small class="ar bg-danger rounded">archived</small>
+                            <small class="ar bg-danger rounded">Archived</small>
                         {% endif %}
                     </td>
                     <td>
@@ -144,9 +144,9 @@
 
             // Apply the filter based on the button clicked
             if (filterValue === 'active') {
-                table.column(0).search('^(?:(?!archived).)*$', true, false).draw();
+                table.column(1).search('^(?:(?!Archived).)*$', true, false).draw();
             } else if (filterValue === 'archived') {
-                table.column(0).search('archived').draw();
+                table.column(1).search('Archived').draw();
             }
         });
     });

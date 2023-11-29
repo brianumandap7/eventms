@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm, DateRangeForm, QForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert, ipsurl, qform
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert, ipsurl, qform, AttendanceMonitoring2, AttendanceMonitoring3
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
@@ -213,6 +213,15 @@ def ar(request, tag):
 
     return render(request, 'eventapp/ar.html', context)
 
+def remp(request, tag, tag2):
+    context = {
+        'tag': tag,
+        'tag2': tag2,
+        'exec': EventParticipants.objects.filter(id = tag2).delete(),
+    }
+
+    return render(request, 'eventapp/remp.html', context)
+
 def ua(request, tag):
     context = {
     	'tag': tag,
@@ -308,17 +317,55 @@ def ips(request, sid, u1, u2, tag):
         'mya': AttendanceMonitoring.objects.filter(Q(attendee = u1+"."+u2)&Q(events_details_id = tag))
     }
 
-    if request.method == "POST":
-    	db = ecert()
-    	db.event_id = tag
-    	db.attendee = request.user
-    	db.feedback = request.POST.get('fb')
-    	db.save()
-
-    	return redirect('/eventapp/stu')
-
-
     return render(request, 'eventapp/ips.html', context)
+
+def ips2(request, sid, u1, u2, tag):
+    # Check if a record with the same attendee and events_details_id already exists
+    existing_record = AttendanceMonitoring2.objects.filter(attendee=u1 + "." + u2, events_details_id=tag, sess_id=sid).first()
+
+    if not existing_record:
+        # If no record with the same values exists, create a new record
+        new_record = AttendanceMonitoring2.objects.create(attendee=u1 + "." + u2, events_details_id=tag, sess_id=sid)
+    else:
+        # If a record already exists, you can handle this case as needed
+        # For example, you can update the existing record or return an error message
+        # Here, we'll just print a message for demonstration purposes
+        print("Record already exists for attendee and events_details_id")
+
+    context = {
+        'sid': sid,
+        'u1': u1,
+        'u2': u2,
+        'tag': tag,
+        'mya': AttendanceMonitoring2.objects.filter(Q(attendee = u1+"."+u2)&Q(events_details_id = tag))
+    }
+
+
+    return render(request, 'eventapp/ips2.html', context)
+
+def ips3(request, sid, u1, u2, tag):
+    # Check if a record with the same attendee and events_details_id already exists
+    existing_record = AttendanceMonitoring3.objects.filter(attendee=u1 + "." + u2, events_details_id=tag, sess_id=sid).first()
+
+    if not existing_record:
+        # If no record with the same values exists, create a new record
+        new_record = AttendanceMonitoring3.objects.create(attendee=u1 + "." + u2, events_details_id=tag, sess_id=sid)
+    else:
+        # If a record already exists, you can handle this case as needed
+        # For example, you can update the existing record or return an error message
+        # Here, we'll just print a message for demonstration purposes
+        print("Record already exists for attendee and events_details_id")
+
+    context = {
+        'sid': sid,
+        'u1': u1,
+        'u2': u2,
+        'tag': tag,
+        'mya': AttendanceMonitoring3.objects.filter(Q(attendee = u1+"."+u2)&Q(events_details_id = tag))
+    }
+
+
+    return render(request, 'eventapp/ips3.html', context)
 
 def ecerts(request):
     context = {
@@ -344,6 +391,21 @@ def attendance(request, tag):
 
     return render(request, 'eventapp/attendance.html', context)
 
+def attendance2(request, tag):
+    context = {
+        'tag': tag,
+        'at': AttendanceMonitoring2.objects.filter(events_details_id = tag),
+    }
+
+    return render(request, 'eventapp/attendance2.html', context)
+
+def attendance3(request, tag):
+    context = {
+        'tag': tag,
+        'at': AttendanceMonitoring3.objects.filter(events_details_id = tag),
+    }
+
+    return render(request, 'eventapp/attendance3.html', context)
 def radar(request, tag):
     context = {
     	'tag': tag,

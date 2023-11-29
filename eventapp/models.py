@@ -71,6 +71,28 @@ class AttendanceMonitoring(models.Model):
 	def __str__(self):
 		return self.events_details_id+" "+str(self.attendee)+" "+str(self.sess_id)
 
+class AttendanceMonitoring2(models.Model):
+	attendee = models.CharField(max_length=255, blank=True, null=True)
+	events_details_id = models.CharField(max_length=255, blank=True, null=True)
+	sess_id = models.CharField(max_length=255, blank=True, null=True)
+	time_in = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+	history = HistoricalRecords()
+
+	def __str__(self):
+		return self.events_details_id+" "+str(self.attendee)+" "+str(self.sess_id)
+
+class AttendanceMonitoring3(models.Model):
+	attendee = models.CharField(max_length=255, blank=True, null=True)
+	events_details_id = models.CharField(max_length=255, blank=True, null=True)
+	sess_id = models.CharField(max_length=255, blank=True, null=True)
+	time_in = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+	history = HistoricalRecords()
+
+	def __str__(self):
+		return self.events_details_id+" "+str(self.attendee)+" "+str(self.sess_id)
+
 class UserLogs(models.Model):
     user = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
