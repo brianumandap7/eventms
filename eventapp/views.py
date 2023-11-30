@@ -711,8 +711,8 @@ def apr(request, tag):
 def fform(request, tag):
     context = {
         'tag': tag,
-        'qs': qform.objects.filter(event_id = tag),
-        'ecert': ecert.objects.filter(Q(attendee = request.user)&Q(event_id = tag)).first()
+        'qs': qform.objects.filter(event_id=tag),
+        'ecert': ecert.objects.filter(Q(attendee=request.user) & Q(event_id=tag)).first()
     }
 
     if request.method == "POST":
@@ -723,22 +723,29 @@ def fform(request, tag):
         q2_rating = request.POST.get('rating2')
         q3_rating = request.POST.get('rating3')
         q4_rating = request.POST.get('rating4')
-        # Check if a record with the same event_id and attendee already exists
+        
         existing_record = ecert.objects.filter(event_id=event_id, attendee=attendee).first()
         
         if existing_record:
-            # If a record already exists, you can update the feedback or take other actions as needed
+            # Update existing record if found
             existing_record.feedback = feedback
-            existing_record.q1 = q1_rating
-            existing_record.q2 = q2_rating
-            existing_record.q3 = q3_rating
-            existing_record.q4 = q4_rating
+            existing_record.q1 = q1_rating if q1_rating else None
+            existing_record.q2 = q2_rating if q2_rating else None
+            existing_record.q3 = q3_rating if q3_rating else None
+            existing_record.q4 = q4_rating if q4_rating else None
             existing_record.save()
         else:
-            # If no record exists, create a new one
-            db = ecert(event_id=event_id, attendee=attendee, feedback=feedback, q1 = q1_rating, q2 = q2_rating, q3 = q3_rating, q4 = q4_rating)
-            db.save()
-
+            # Create a new record
+            new_record = ecert.objects.create(
+                event_id=event_id,
+                attendee=attendee,
+                feedback=feedback,
+                q1=q1_rating if q1_rating else None,
+                q2=q2_rating if q2_rating else None,
+                q3=q3_rating if q3_rating else None,
+                q4=q4_rating if q4_rating else None
+            )
+        
         return redirect('/eventapp/cw')
 
     return render(request, 'eventapp/fform.html', context)
