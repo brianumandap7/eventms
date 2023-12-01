@@ -147,6 +147,7 @@ class qform(models.Model):
 	event_id = models.CharField(max_length=255, blank=True, null=True)
 	question = models.CharField(max_length=255, blank=True, null=True)
 	category = models.CharField(max_length=255, blank=True, null=True)
+	q_number = models.IntegerField(null = True, blank = True, default = 1)
 
 	def __str__(self):
 		return str(self.event_id)+" "+str(self.category)

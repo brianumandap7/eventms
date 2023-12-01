@@ -135,4 +135,5 @@ class QForm(forms.ModelForm):
         widgets = {
             'question': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),  # You can adjust the 'rows' attribute as needed
             'category': forms.TextInput(attrs={'class': 'form-control'}),
+            'q_number': forms.NumberInput(attrs={'class': 'form-control'}),  # Add widget for q_number field
         }
