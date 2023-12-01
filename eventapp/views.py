@@ -719,10 +719,10 @@ def fform(request, tag):
         event_id = tag
         attendee = request.user
         feedback = request.POST.get('fb')
-        q1_rating = request.POST.get('rating1')
-        q2_rating = request.POST.get('rating2')
-        q3_rating = request.POST.get('rating3')
-        q4_rating = request.POST.get('rating4')
+        q1_rating = request.POST.get('rating1') or None
+        q2_rating = request.POST.get('rating2') or None
+        q3_rating = request.POST.get('rating3') or None
+        q4_rating = request.POST.get('rating4') or None
         
         existing_record = ecert.objects.filter(event_id=event_id, attendee=attendee).first()
         
