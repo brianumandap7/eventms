@@ -22,7 +22,7 @@
         <h2 class="mb-4">QForm for Event ID: {{ tag }}</h2>
         <form method="post" class="needs-validation" novalidate>
             {% csrf_token %}
-            {{form. q_number.label_tag}} {{form.q_number}}
+            {{form.q_number.label_tag}} {{form.q_number}}
             {{ form.question.label_tag }}
             <textarea name="{{ form.question.name }}" rows="3" class="form-control" required></textarea>
             {{ form.category.label_tag }} {{ form.category }}<br>
