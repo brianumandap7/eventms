@@ -41,7 +41,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#programs">Programs</a>
+                    <a class="nav-link" href="#programs">Events</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#faculty">Vision</a>
@@ -103,37 +103,43 @@
     <!-- Main Content -->
     <div class="container mt-4">
         <section id="programs">
-            <h2 style="background-color: #FFC107; padding: 10px;">Undergraduate Programs</h2>
-            <ul>
-                <li>Bachelor of Arts in Political Science (Philippine Politics and Foreign Relations Track)</li>
-                <li>Bachelor of Arts in Communication (Convergent Media Track)</li>
-                <li>Bachelor of Arts in Communication (Digital Cinema Track)</li>
-                <li>Bachelor of Science in Psychology</li>
-                <li>Bachelor of Science in Medical Technology</li>
-                <!-- Add the rest of the programs as list items -->
-                <li>Bachelor of Science in Tourism Management (Travel and Tours Management Track)</li>
+            <h3 style="background-color: #FFC107; padding: 10px;">Upcoming Events and Programs</h3>
+            <ul class="list-group">
+                {% for event in upcoming_events %}
+                    <li class="list-group-item">
+                        <div class="event-thumbnail">
+                            <h2 class="h4">{{ event.events_name }}</h2>
+                            <p>{{ event.events_details }}</p>
+                            <p><strong>Schedule:</strong> {{ event.events_schedule }}</p>
+                            <p><strong>Requestor:</strong> {{ event.events_requestor }}</p>
+                        </div>
+                    </li>
+                {% empty %}
+                <li class="list-group-item">
+                    <div class="event-thumbnail">
+                        <h5><small>There are no upcoming events as of {{now}}</small></h5>
+                    </div>
+                </li>
+                {% endfor %}
             </ul>
         </section>
 
         <hr>
 
         <section id="faculty">
-            <h2 style="background-color: #FFC107; padding: 10px;">Vision</h2>
-            <p>Guided by the core values of Fortitude, Excellence, Uprightness, and Compassion, FEU Cavite Higher Education Department, a leading professional institution, produces future-ready global citizens and champions the development of society.</p>
+            <h3 style="background-color: #FFC107; padding: 10px;">Vision</h3>
+            <p>To pioneer a dynamic and inclusive educational environment at FEU Cavite, fostering memorable and transformative experiences through innovative event management, technology integration, and a commitment to excellence</p>
         </section>
 
         <hr>
 
         <section id="campus">
-            <h2 style="background-color: #FFC107; padding: 10px;">Mission</h2>
-            <ol>
-                <li>Sustains the Founder’s pioneering spirit in education and nation-building;</li>
-                <li>Implements an OBE-aligned General Education Curriculum and professional programs;</li>
-                <li>Offers future-ready education through technology-enabled and adaptive learning approaches;</li>
-                <li>Provides transformational learning; and</li>
-                <li>Develops industry-responsive and enterprising individuals.</li>
-            </ol>
+            <h3 style="background-color: #FFC107; padding: 10px;">Mission</h3>
+            <p>We are dedicated to orchestrating vibrant and impactful school events that engage students, parents, staff, and guests. By leveraging our Events Management System and cutting-edge technology like the Indoor Positioning System (IPS), we aim to streamline processes, enhance participation, and create a cohesive community that thrives on enriching experiences and academic success.</p>
         </section>
+
+        <br>
+        <br>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

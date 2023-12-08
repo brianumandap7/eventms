@@ -2,9 +2,16 @@ from django.contrib.auth.views import LoginView
 from .forms import CustomAuthForm
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 
-from eventapp.models import logourl
+from eventapp.models import logourl, events_details
 
 from django.contrib.auth import views as auth_views
+
+from datetime import date, datetime
+
+from django.utils import timezone
+
+from django.db.models import Q
+
 
 class CustomLoginView(LoginView):
     template_name = 'login/login.html'
@@ -34,8 +41,12 @@ class CustomLoginView(LoginView):
         return context
 
 def logindash(request):
-    context = {
+    now = timezone.now()
+    upcoming_events = events_details.objects.filter(Q(events_schedule__gte=now)&Q(apr = 1))
 
+    context = {
+        'now': now,
+        'upcoming_events': upcoming_events,
     }
 
     return render(request, 'login/logindash.html', context)
