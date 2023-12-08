@@ -73,6 +73,7 @@
                 <th>Event Description</th>
                 <th>Event Schedule</th>
                 <th>IPS Status</th>
+                <th>eCert</th>
                 <th>Requestor</th>
                 <th>Actions</th>
             </tr>
@@ -99,6 +100,13 @@
                         <small class="ired">{{items.ips_online}}</small>
                         {% elif items.ips_online == 'online' %}
                         <small class="igreen">{{items.ips_online}}</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if items.cert_allowed == 'No' %}
+                        <p style="color: red;">&#x274C;</p>
+                        {% else %}
+                        <p style="color: green;">&#x2714;</p>
                         {% endif %}
                     </td>
                     <td>

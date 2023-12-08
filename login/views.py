@@ -1,5 +1,10 @@
 from django.contrib.auth.views import LoginView
 from .forms import CustomAuthForm
+from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
+
+from eventapp.models import logourl
+
+from django.contrib.auth import views as auth_views
 
 class CustomLoginView(LoginView):
     template_name = 'login/login.html'
@@ -21,3 +26,27 @@ class CustomLoginView(LoginView):
                 form.add_error(None, form.error_messages['non_existent_user'])
 
         return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add your custom context here
+        context['logourl'] = logourl.objects.all()
+        return context
+
+def logindash(request):
+    context = {
+
+    }
+
+    return render(request, 'login/logindash.html', context)
+
+
+
+class CustomLogoutView(auth_views.LogoutView):
+    template_name = 'login/logout.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add your custom context here
+        context['logourl'] = logourl.objects.all()
+        return context

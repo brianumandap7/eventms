@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, Historicalevents_details, ecert, ipsurl, qform, AttendanceMonitoring2, AttendanceMonitoring3
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, Historicalevents_details, ecert, ipsurl, qform, AttendanceMonitoring2, AttendanceMonitoring3, logourl
 from import_export.admin import ImportExportModelAdmin, ExportActionMixin #package
 from django.contrib.admin.models import LogEntry
 
@@ -37,3 +37,5 @@ admin.site.register(ecert, exportSurvey)
 admin.site.register(ipsurl, exportSurvey)
 
 admin.site.register(qform, exportSurvey)
+
+admin.site.register(logourl, exportSurvey)

@@ -1,5 +1,12 @@
 from time import strptime
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+import qrcode
+from io import BytesIO
+from django.core.files import File
+from PIL import Image, ImageDraw
+
 from django.contrib.auth.models import User
 from datetime import date, datetime
 from django.utils import timezone
@@ -28,10 +35,32 @@ class events_details(models.Model):
     
     ips_online = models.CharField(max_length=7, choices=IPS_URL_CHOICES, default='offline')
 
+    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
+
+    CERTIFICATE_CHOICES = [
+        ('Yes', 'Yes'),
+        ('No', 'No'),
+    ]
+
+    cert_allowed = models.CharField(max_length=3, choices=CERTIFICATE_CHOICES, default='Yes')
+
     history = HistoricalRecords()
 
     def __str__(self):
-    	return str(self.events_name)+" "+" "+str(self.events_requestor)
+    	return str(self.events_name)+" "+" "+str(self.events_requestor)+" "+str(self.events_details_id)
+
+    def save(self, *args, **kwargs):
+    	url = "https://evmfeucavite.pythonanywhere.com/eventapp/deta/" + str(self.events_details_id)
+    	qrcode_img = qrcode.make(url)
+    	canvas = Image.new('RGB', (400, 400), 'white')
+    	draw = ImageDraw.Draw(canvas)
+    	canvas.paste(qrcode_img)
+    	fname = f'qr_code-{self.events_name}.png'
+    	buffer = BytesIO()
+    	canvas.save(buffer,'PNG')
+    	self.qr_code.save(fname, File(buffer), save = False)
+    	canvas.close()
+    	super().save(*args, **kwargs)
 
 class UserProfile(models.Model):
     COURSE_CHOICES = [
@@ -142,6 +171,12 @@ class ipsurl(models.Model):
 
 	def __str__(self):
 		return str(self.ipsurl)
+
+class logourl(models.Model):
+	logourl = models.CharField(max_length=255, blank=True, null=True)
+
+	def __str__(self):
+		return str(self.logourl)
 
 class qform(models.Model):
 	event_id = models.CharField(max_length=255, blank=True, null=True)

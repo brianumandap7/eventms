@@ -31,12 +31,13 @@ class EventsDetailsEditForm(forms.ModelForm):
     
     class Meta:
         model = events_details
-        fields = ['events_name', 'events_details', 'events_schedule', 'ips_online']
+        fields = ['events_name', 'events_details', 'events_schedule', 'cert_allowed', 'ips_online']
         widgets = {
             'events_name': forms.TextInput(attrs={'class': 'form-control'}),
             'events_details': forms.TextInput(attrs={'class': 'form-control'}),
             'ips_online': forms.Select(attrs={'class': 'form-control'}),
             'events_schedule': forms.DateTimeInput(attrs={'class': 'form-control datetime-input'}),
+            'cert_allowed': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class CustomUserCreationForm(UserCreationForm):
@@ -133,7 +134,12 @@ class QForm(forms.ModelForm):
         exclude = ['event_id']
 
         widgets = {
-            'question': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),  # You can adjust the 'rows' attribute as needed
+            'question': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),  
             'category': forms.TextInput(attrs={'class': 'form-control'}),
-            'q_number': forms.NumberInput(attrs={'class': 'form-control'}),  # Add widget for q_number field
+            'q_number': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(QForm, self).__init__(*args, **kwargs)
+        self.initial['category'] = 'Topics and Discussion'  # Set default text for 'category' field
+

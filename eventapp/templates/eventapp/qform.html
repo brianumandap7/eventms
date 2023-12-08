@@ -24,7 +24,7 @@
             {% csrf_token %}
             {{form.q_number.label_tag}} {{form.q_number}}
             {{ form.question.label_tag }}
-            <textarea name="{{ form.question.name }}" rows="3" class="form-control" required></textarea>
+            <textarea name="{{ form.question.name }}" rows="3" class="form-control" required>Rate the Topic and Discussion</textarea>
             {{ form.category.label_tag }} {{ form.category }}<br>
             <button type="submit" class="btn btn-custom">Submit</button>
         </form>

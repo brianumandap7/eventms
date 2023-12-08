@@ -81,7 +81,7 @@
         <!-- Column 1: Existing content -->
         <div class="profile-container">
             {% for items in ev %}
-                <p><img src="https://via.placeholder.com/100x100/FFC107/000000?text=FEUC-Event" class="small-text" alt="User Profile"></p>
+                <p><img src="/media/{{items.qr_code}}" class="small-text" alt="User Profile"></p>
                 <p><strong>Event Name:</strong> {{items.events_name}}</p>
                 <p><strong>Description:</strong> {{items.events_details}}</p>
                 <p><strong>Date:</strong> {{items.events_schedule}}</p>

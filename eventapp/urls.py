@@ -86,7 +86,11 @@ urlpatterns = [
 
     path('approve_event/', staff_member_required(views.approve_event), name='approve_event'),
 
+    path('dis_event/', staff_member_required(views.dis_event), name='dis_event'),
+
     path('apr/<int:tag>', staff_member_required(views.apr), name='apr'),
+
+    path('dapr/<int:tag>', staff_member_required(views.dapr), name='dapr'),
 
     path('fform/<int:tag>', login_required(views.fform), name='fform'),
 

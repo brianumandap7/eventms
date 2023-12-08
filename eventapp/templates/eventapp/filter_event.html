@@ -57,6 +57,7 @@
         <tr>
             <th>Event Name</th>
             <th>Event Schedule</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -64,6 +65,10 @@
             <tr>
                 <td>{{ event.events_name }}</td>
                 <td>{{ event.events_schedule }}</td>
+                <td>
+                    <a href="/eventapp/deta/{{event.events_details_id}}" class="btn btn-info fas fa-eye" target="_blank"></a>
+                    <a href="/eventapp/ana/{{event.events_details_id}}" class="btn btn-success fa fa-bar-chart" target="_blank"></a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import EventsDetailsForm, EventsDetailsEditForm, CustomUserCreationForm, CustomUserEditForm, UserProfileForm, EventParticipantForm, DateRangeForm, QForm
-from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert, ipsurl, qform, AttendanceMonitoring2, AttendanceMonitoring3
+from .models import events_details, UserProfile, AttendanceMonitoring, UserLogs, HistoricalUserLogs, HistoricalEventLogs, EventLogs, EventParticipants, ecert, ipsurl, qform, AttendanceMonitoring2, AttendanceMonitoring3, logourl
 from django.contrib import messages
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
@@ -79,6 +79,7 @@ def admindash(request):
         'appr_percentage': appr_percentage,
         'arch_percentage': arch_percentage,
         'f_count': ecert.objects.all().count(),
+        'logourl': logourl.objects.all(),
 	}
 
 	if request.method == 'POST':
@@ -120,6 +121,7 @@ def stu(request):
     	'up': UserProfile.objects.filter(user = request.user),
     	'belong': belong,
     	'ipsurl': ipsurl.objects.all(),
+        'logourl': logourl.objects.all(),
 	}
 	return render(request, 'eventapp/stu.html', query)
 
@@ -136,20 +138,22 @@ def create_event(request):
             form.save()
             # Optionally, you can redirect to a success page or display a message
             messages.success(request, 'Event created successfully.')
-            return redirect('/eventapp/view_event')  # Change 'success_page' to the actual URL name
+            return redirect('/eventapp/approve_event')  # Change 'success_page' to the actual URL name
     else:
         form = EventsDetailsForm(user=request.user)
 
     context = {
     	'form': form,
-    	'ed': events_details.objects.all().order_by('events_name')
+    	'ed': events_details.objects.all().order_by('events_name'),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/create_event.html', context)
 
 def view_event(request):
     context = {
-    	'ed': events_details.objects.filter(apr = 1).order_by('-events_details_id')
+    	'ed': events_details.objects.filter(apr = 1).order_by('-events_details_id'),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/view_event.html', context)
@@ -157,9 +161,19 @@ def view_event(request):
 def approve_event(request):
     context = {
     	'ap': events_details.objects.filter(apr = 0),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/approve_event.html', context)
+
+def dis_event(request):
+    context = {
+        'ap': events_details.objects.filter(apr = 2),
+        'logourl': logourl.objects.all(),
+    }
+
+    return render(request, 'eventapp/dis_event.html', context)
+
 
 def event_det(request, tag):
     event = events_details.objects.get(events_details_id=tag)
@@ -182,7 +196,8 @@ def event_det(request, tag):
         'participants': participants,
         'form': form,
         'ev': events_details.objects.filter(events_details_id=tag),
-        'ep': EventParticipants.objects.filter(event_id=tag)
+        'ep': EventParticipants.objects.filter(event_id=tag),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/event_det.html', context)
@@ -202,7 +217,13 @@ def edit_event(request, event_id):
     else:
         form = EventsDetailsEditForm(instance=event)
 
-    return render(request, 'eventapp/edit_event.html', {'form': form, 'event': event})
+    context = {
+        'form': form,
+        'event': event,
+        'logourl': logourl.objects.all()
+    }
+
+    return render(request, 'eventapp/edit_event.html', context)
 
 def ar(request, tag):
     context = {
@@ -235,7 +256,8 @@ def manage_users(request):
     context = {
     	'all_users': User.objects.all().exclude(is_superuser = True).order_by('first_name'),
     	'hr': HistoricalRecords(),    
-    	'superH': LogEntry.objects.all()
+    	'superH': LogEntry.objects.all(),
+        'logourl': logourl.objects.all(),
     	}
 
     return render(request, 'eventapp/manage_users.html', context)
@@ -270,7 +292,8 @@ def edit_profile(request, pk):
     context = {
         'form': form,
         'pk': pk,
-        'det': User.objects.filter(id = pk)
+        'det': User.objects.filter(id = pk), 
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/edit_profile.html', context)
@@ -371,6 +394,7 @@ def ecerts(request):
     context = {
     	'mc': ecert.objects.filter(attendee = request.user),
     	'ev': events_details.objects.all(),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/ecerts.html', context)
@@ -425,7 +449,8 @@ def user_logs(request, tag, un):
     	'us': User.objects.filter(id = tag),
     	'superH': superH,
     	'tn': timezone.now(),
-    	'hist': HistoricalUserLogs.objects.filter(user = un)
+    	'hist': HistoricalUserLogs.objects.filter(user = un),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/user_logs.html', context)
@@ -438,6 +463,7 @@ def super_user_logs(request, tag, un):
     	'un': un,
     	'superH': superH,
     	'tn': timezone.now(),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/super_user_logs.html', context)
@@ -466,6 +492,7 @@ def hist(request, tag, un):
     	'un': un,
     	'ev': events_details.objects.filter(events_details_id = tag),
     	'hist': HistoricalEventLogs.objects.filter(event_id = tag),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/hist.html', context)
@@ -533,6 +560,7 @@ def calendar(request):
 
     context = {
         'event_data': event_data,
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/calendar.html', context)
@@ -555,6 +583,7 @@ def view_user(request, tag):
         'form': form,
         'up1': UserProfile.objects.filter(user_id = tag),
         'up2': User.objects.filter(id = tag),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/view_user.html', context)
@@ -599,6 +628,7 @@ def filter_user(request):
         'start_month': start_month,
         'end_month': end_month,
         'year': year,
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/filter_user.html', context)
@@ -626,6 +656,7 @@ def filter_event(request):
         'start_date': start_date,
         'end_date': end_date,
         'form': form,
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/filter_event.html', context)
@@ -695,7 +726,9 @@ def rpo(request, un):
 
 def radar_dash(request):
     context = {
-
+        'ed': events_details.objects.filter(apr = 1).order_by('-events_details_id'),
+        'ipsurl': ipsurl.objects.all(),
+        'logourl': logourl.objects.all(),
     }
 
     return render(request, 'eventapp/radar_dash.html', context)
@@ -707,6 +740,14 @@ def apr(request, tag):
     }
 
     return render(request, 'eventapp/apr.html', context)
+
+def dapr(request, tag):
+    context = {
+        'tag': tag,
+        'exec': events_details.objects.filter(events_details_id = tag).update(apr = 2),
+    }
+
+    return render(request, 'eventapp/dapr.html', context)
 
 def fform(request, tag):
     context = {

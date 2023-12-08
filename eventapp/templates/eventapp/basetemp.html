@@ -89,13 +89,15 @@
     <!-- End Google Tag Manager (noscript)-->
     <div class="sidebar sidebar-dark sidebar-fixed scustom" id="sidebar">
       <div class="sidebar-brand d-none d-md-flex">
-        <img src="https://scontent.fcrk3-2.fna.fbcdn.net/v/t39.30808-6/328984377_1532951440545626_2637214371547217674_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeGYiTD0c5cWmySqHDlhEhKdwcos4j9CmdLByiziP0KZ0iKVvRN5nHmufNrtCH35IR08sMWbGIso_PTPnP4hbuAe&_nc_ohc=dtD-Yk-itJwAX-OPIAi&_nc_zt=23&_nc_ht=scontent.fcrk3-2.fna&oh=00_AfDGJGgRv5U1gVjs1wyZul3NvoJIjiTOssyTl615eznMXA&oe=656CBA88" class="img-responsive sidelogo feuc">
+        {% for items in logourl %}
+        <img src="{{items.logourl}}" class="img-responsive sidelogo feuc">
+        {% endfor %}
       </div>
 
       <ul class="sidebar-nav simplebar-scrollable-y" data-coreui="navigation" data-simplebar="init"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;"><div class="simplebar-content" style="padding: 0px;">
 
         <li class="nav-title">EVM Pages</li>
-        <li class="nav-item"><a class="nav-link" href="/" >
+        <li class="nav-item"><a class="nav-link" href="/eventapp/admindash/" >
             <svg class="nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
             </svg>Home</a>
@@ -123,6 +125,13 @@
             <svg class="nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
             </svg>Approve Events</a>
+        
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="/eventapp/dis_event">
+            <svg class="nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+            </svg>Disapproved Events</a>
         
         </li>
 

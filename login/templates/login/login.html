@@ -23,6 +23,11 @@
 	color: white;
 }
 
+.btn-custom1, btn-custom1:hover {
+  background-color: #FFC107;
+  color: black;
+}
+
 .bg-custom1 {
   color: white;
   background: #092D13 url('https://drive.google.com/uc?id=1XG0XCsvDMvgaKVtODjq1ZOcXwKdo4UV7') left/cover;
@@ -69,8 +74,10 @@ border-bottom-right-radius: .3rem;
               <div class="card-body p-md-5 mx-md-4">
 
                 <div class="text-center">
-                  <img src="https://scontent.fcrk3-2.fna.fbcdn.net/v/t39.30808-6/328984377_1532951440545626_2637214371547217674_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeGYiTD0c5cWmySqHDlhEhKdwcos4j9CmdLByiziP0KZ0iKVvRN5nHmufNrtCH35IR08sMWbGIso_PTPnP4hbuAe&_nc_ohc=dtD-Yk-itJwAX-OPIAi&_nc_zt=23&_nc_ht=scontent.fcrk3-2.fna&oh=00_AfDGJGgRv5U1gVjs1wyZul3NvoJIjiTOssyTl615eznMXA&oe=656CBA88"
+                  {% for items in logourl %}
+                  <img src="{{items.logourl}}"
                     style="width: 185px;" alt="logo">
+                  {% endfor %}
                   <h5 class="mt-1 mb-5 pb-1">Events Management System</h5>
                 </div>
 
@@ -84,6 +91,7 @@ border-bottom-right-radius: .3rem;
 
                     <div class="text-center pt-1 mb-5 pb-1">
                         <button class="btn btn-custom btn-block fa-lg mb-3" type="submit">Log in</button>
+                        <button class="btn btn-custom1 btn-block fa-lg mb-3" type="button" onclick="window.location.href = '/';">Back to Main Page</button>
                         <a href="/eventapp/p_reset/">Forgot Password?</a>
                     </div>
                 </form>

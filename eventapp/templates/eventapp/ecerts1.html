@@ -115,18 +115,38 @@
     </style>
 </head>
 <body>
-    <div class="certificate certificate-with-bg">
-        <div class="header"></div>
-            <div class="content">
-                
-                <div class="recipient" style="font-weight: bold;"><h3>{{user.first_name}} {{user.last_name}}</h3></div>
-                <div class="event">has demonstrated exceptional dedication and completed the <b>{% for items in ev %}{{items.events_name}}{% endfor %} Event hosted at FEU Cavite.</b></div>
-                <div class="date">This certificate is awarded on {% for items in ev %}{{ items.events_schedule|date:"Y-m-d" }}{% endfor %}</div>
+    {% for i in ev %}
+            {% if i.cert_allowed == 'No' %}
+
+            <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Thanks for attending {{i.events_name}}</h4>
+              <p class="mb-0"><b>However,</b> it seems like this program will <b>not issue e-certificates.</b> Please contact your event coordinator and IT administrator for verification.</p>
+              <hr>
+              <p class="mb-0">Regards, EVM Team.</p>
             </div>
-    </div>
+            {% else %}
+            <div class="certificate certificate-with-bg">
+                <div class="header"></div>
+                
+                    
+
+                    
+                    <div class="content">
+                        
+                        <div class="recipient" style="font-weight: bold;"><h3>{{user.first_name}} {{user.last_name}}</h3></div>
+                        <div class="event">has demonstrated exceptional dedication and completed the <b>{% for items in ev %}{{items.events_name}}{% endfor %} Event hosted at FEU Cavite.</b></div>
+                        <div class="date">This certificate is awarded on {% for items in ev %}{{ items.events_schedule|date:"Y-m-d" }}{% endfor %}</div>
+                    </div>
+                    
+            </div>
+            <button class="print-button" onclick="window.print()">Print Certificate</button>
+            {% endif %}
+        
+    
+    {% endfor %}
 
 
-    <button class="print-button" onclick="window.print()">Print Certificate</button>
+    
 
 </body>
 </html>
